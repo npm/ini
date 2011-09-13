@@ -2,6 +2,8 @@
 exports.parse = exports.decode = decode
 exports.stringify = exports.encode = encode
 
+exports.safe = safe
+exports.unsafe = unsafe
 
 function encode (obj, section) {
   var children = []
