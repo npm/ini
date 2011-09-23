@@ -64,7 +64,7 @@ Escapes the string `val` such that it is safe to be used as a key or value in an
 
 would result in
 
-    "\"test string\""
+    "\"unsafe string\""
 
 ### unsafe(val)
 Unescapes the string `val`
