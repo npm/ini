@@ -82,6 +82,7 @@ function decode (str) {
 function safe (val) {
   return ( typeof val !== "string"
          || val.match(/[\r\n]/)
+         || val.match(/^\[/)
          || (val.length > 1
              && val.charAt(0) === "\""
              && val.slice(-1) === "\"")
