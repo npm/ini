@@ -12,9 +12,9 @@ var i = require("../")
             + '[a]\n'
             + 'av = a val\n'
             + 'e = { o: p, a: '
-            + '{ av: a val, b: { c: { e: "this value" '
+            + '{ av: a val, b: { c: { e: "this [value]" '
             + '} } } }\nj = "\\"{ o: \\"p\\", a: { av:'
-            + ' \\"a val\\", b: { c: { e: \\"this value'
+            + ' \\"a val\\", b: { c: { e: \\"this [value]'
             + '\\" } } } }\\""\n[a.b.c]\ne = 1\nj = 2\n'
   , expectD =
     { o: 'p',
@@ -22,8 +22,8 @@ var i = require("../")
       " xa  n          p ":'"\r\nyoyoyo\r\r\n',
       a:
        { av: 'a val',
-         e: '{ o: p, a: { av: a val, b: { c: { e: "this value" } } } }',
-         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this value" } } } }"',
+         e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
+         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
          b: { c: { e: '1', j: '2' } } }
     }
 
