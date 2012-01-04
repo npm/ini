@@ -23,7 +23,11 @@ function encode (obj, section) {
   }
 
   children.forEach(function (k, _, __) {
-    out += encode(obj[k], (section ? section + "." : "") + k)
+    var child = encode(obj[k], (section ? section + "." : "") + k)
+    if (out.length && child.length) {
+      out += "\n"
+    }
+    out += child
   })
 
   return out

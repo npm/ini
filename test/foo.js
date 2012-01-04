@@ -10,13 +10,14 @@ var i = require("../")
             + 'a with spaces = b  c\n'
             + '" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"\n'
             + '"[disturbing]" = hey you never know\n'
+            + '\n'
             + '[a]\n'
             + 'av = a val\n'
             + 'e = { o: p, a: '
             + '{ av: a val, b: { c: { e: "this [value]" '
             + '} } } }\nj = "\\"{ o: \\"p\\", a: { av:'
             + ' \\"a val\\", b: { c: { e: \\"this [value]'
-            + '\\" } } } }\\""\n"[]" = a square?\n[a.b.c]\ne = 1\nj = 2\n'
+            + '\\" } } } }\\""\n"[]" = a square?\n\n[a.b.c]\ne = 1\nj = 2\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
@@ -39,5 +40,11 @@ test("decode from file", function (t) {
 test("encode from data", function (t) {
   e = i.encode(expectD)
   t.deepEqual(e, expectE)
+
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+  e = i.encode(obj)
+  t.notEqual(e.slice(0, 1), '\n', 'Never a blank first line')
+  t.notEqual(e.slice(-2), '\n\n', 'Never a blank final line')
+
   t.end()
 })
