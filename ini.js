@@ -6,10 +6,17 @@ exports.safe = safe
 exports.unsafe = unsafe
 
 function encode (obj, section, separator) {
+  separator = separator || ""
+  if(!separator.match(/^\s*$/)) {
+    throw new Error('Bad separator: ' + separator)
+  }
+
+  return encode_int(obj, section, separator)
+}
+
+function encode_int (obj, section, separator) {
   var children = []
     , out = ""
-
-  separator = separator || ""
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
@@ -25,7 +32,7 @@ function encode (obj, section, separator) {
   }
 
   children.forEach(function (k, _, __) {
-    out += encode(obj[k], (section ? section + "." : "") + k, separator)
+    out += encode_int(obj[k], (section ? section + "." : "") + k, separator)
   })
 
   return out

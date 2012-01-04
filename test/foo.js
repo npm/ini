@@ -1,6 +1,7 @@
 var i = require("../")
   , tap = require("tap")
   , test = tap.test
+  , util = require('util')
   , fs = require("fs")
   , path = require("path")
   , fixture = path.resolve(__dirname, "./fixtures/foo.ini")
@@ -39,6 +40,22 @@ test("decode from file", function (t) {
 test("encode from data", function (t) {
   e = i.encode(expectD)
   t.deepEqual(e, expectE)
+  t.end()
+})
+
+test("good and bad separator values", function(t) {
+  var bad_separators = [1, '0', ['\n'], {"":'\n'}, true, '-']
+  bad_separators.forEach(function(separator) {
+    t.throws(function() { i.encode(expectD, null, separator) },
+             'Exception for bad separator: ' + util.inspect(separator))
+  })
+
+  var good_separators = [undefined, null, false, "", '    ', '\n', '\r\n']
+  good_separators.forEach(function(separator) {
+    t.doesNotThrow(function() { i.encode(expectD, null, separator) },
+                   'No problem with separator: ' + util.inspect(separator))
+  })
+
   t.end()
 })
 
