@@ -11,7 +11,8 @@ function encode (obj, section, separator) {
     throw new Error('Bad separator: ' + separator)
   }
 
-  return encode_int(obj, section, separator)
+  var ugly_start = new RegExp('^' + separator)
+  return encode_int(obj, section, separator).replace(ugly_start, "")
 }
 
 function encode_int (obj, section, separator) {

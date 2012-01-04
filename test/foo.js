@@ -75,3 +75,12 @@ test("encode with newlines", function(t) {
                   .join('\n')
   }
 })
+
+test("no spurious separators", function(t) {
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+
+  e = i.encode(obj, null, '\r\n')
+  t.notEqual(e.slice(0, 2), '\r\n', 'Never a separator on the first line')
+  t.notEqual(e.slice(-2), '\r\n', 'Never a separator on the last line')
+  t.end()
+})
