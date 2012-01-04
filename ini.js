@@ -5,7 +5,17 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-function encode (obj, section) {
+function encode (obj, section, separator) {
+  separator = separator || ""
+  if(!separator.match(/^\s*$/)) {
+    throw new Error('Bad separator: ' + separator)
+  }
+
+  var ugly_start = new RegExp('^' + separator)
+  return encode_int(obj, section, separator).replace(ugly_start, "")
+}
+
+function encode_int (obj, section, separator) {
   var children = []
     , out = ""
 
@@ -19,11 +29,11 @@ function encode (obj, section) {
   })
 
   if (section && out.length) {
-    out = "[" + safe(section) + "]" + "\n" + out
+    out = separator + "[" + safe(section) + "]" + "\n" + out
   }
 
   children.forEach(function (k, _, __) {
-    out += encode(obj[k], (section ? section + "." : "") + k)
+    out += encode_int(obj[k], (section ? section + "." : "") + k, separator)
   })
 
   return out
@@ -82,6 +92,7 @@ function decode (str) {
 function safe (val) {
   return ( typeof val !== "string"
          || val.match(/[\r\n]/)
+         || val.match(/^\[/)
          || (val.length > 1
              && val.charAt(0) === "\""
              && val.slice(-1) === "\"")
