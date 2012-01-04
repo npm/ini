@@ -8,24 +8,25 @@ exports.unsafe = unsafe
 function encode (obj, section) {
   var children = []
     , out = ""
+    , BR = (process.platform === 'win32') ? "\r\n" : "\n"
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
     if (val && typeof val === "object") {
       children.push(k)
     } else {
-      out += safe(k) + " = " + safe(val) + "\n"
+      out += safe(k) + " = " + safe(val) + BR
     }
   })
 
   if (section && out.length) {
-    out = "[" + safe(section) + "]" + "\n" + out
+    out = "[" + safe(section) + "]" + BR + out
   }
 
   children.forEach(function (k, _, __) {
     var child = encode(obj[k], (section ? section + "." : "") + k)
     if (out.length && child.length) {
-      out += "\n"
+      out += BR
     }
     out += child
   })

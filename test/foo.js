@@ -48,3 +48,23 @@ test("encode from data", function (t) {
 
   t.end()
 })
+
+test("native line breaks", function(t) {
+  var obj = { foo:'bar', people: {bob:'awesome'} }
+    , lines = [ 'foo = bar'
+              , ''
+              , '[people]'
+              , 'bob = awesome'
+              , ''
+              ]
+
+  process.platform = "linux"
+  e = i.encode(obj)
+  t.deepEqual(e, lines.join("\n"), 'Unix line breaks')
+
+  process.platform = "win32"
+  e = i.encode(obj)
+  t.deepEqual(e, lines.join("\r\n"), 'Windows line breaks')
+
+  t.end()
+})
