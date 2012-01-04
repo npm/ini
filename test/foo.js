@@ -9,21 +9,24 @@ var i = require("../")
   , expectE = 'o = p\n'
             + 'a with spaces = b  c\n'
             + '" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"\n'
+            + '"[disturbing]" = hey you never know\n'
             + '[a]\n'
             + 'av = a val\n'
             + 'e = { o: p, a: '
-            + '{ av: a val, b: { c: { e: "this value" '
+            + '{ av: a val, b: { c: { e: "this [value]" '
             + '} } } }\nj = "\\"{ o: \\"p\\", a: { av:'
-            + ' \\"a val\\", b: { c: { e: \\"this value'
-            + '\\" } } } }\\""\n[a.b.c]\ne = 1\nj = 2\n'
+            + ' \\"a val\\", b: { c: { e: \\"this [value]'
+            + '\\" } } } }\\""\n"[]" = a square?\n[a.b.c]\ne = 1\nj = 2\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
       " xa  n          p ":'"\r\nyoyoyo\r\r\n',
+      '[disturbing]': 'hey you never know',
       a:
        { av: 'a val',
-         e: '{ o: p, a: { av: a val, b: { c: { e: "this value" } } } }',
-         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this value" } } } }"',
+         e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
+         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
+         "[]": "a square?",
          b: { c: { e: '1', j: '2' } } }
     }
 
