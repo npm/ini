@@ -9,21 +9,25 @@ var i = require("../")
   , expectE = 'o = p\n'
             + 'a with spaces = b  c\n'
             + '" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"\n'
+            + '"[disturbing]" = hey you never know\n'
+            + '\n'
             + '[a]\n'
             + 'av = a val\n'
             + 'e = { o: p, a: '
-            + '{ av: a val, b: { c: { e: "this value" '
+            + '{ av: a val, b: { c: { e: "this [value]" '
             + '} } } }\nj = "\\"{ o: \\"p\\", a: { av:'
-            + ' \\"a val\\", b: { c: { e: \\"this value'
-            + '\\" } } } }\\""\n[a.b.c]\ne = 1\nj = 2\n'
+            + ' \\"a val\\", b: { c: { e: \\"this [value]'
+            + '\\" } } } }\\""\n"[]" = a square?\n\n[a.b.c]\ne = 1\nj = 2\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
       " xa  n          p ":'"\r\nyoyoyo\r\r\n',
+      '[disturbing]': 'hey you never know',
       a:
        { av: 'a val',
-         e: '{ o: p, a: { av: a val, b: { c: { e: "this value" } } } }',
-         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this value" } } } }"',
+         e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
+         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
+         "[]": "a square?",
          b: { c: { e: '1', j: '2' } } }
     }
 
@@ -36,5 +40,31 @@ test("decode from file", function (t) {
 test("encode from data", function (t) {
   e = i.encode(expectD)
   t.deepEqual(e, expectE)
+
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+  e = i.encode(obj)
+  t.notEqual(e.slice(0, 1), '\n', 'Never a blank first line')
+  t.notEqual(e.slice(-2), '\n\n', 'Never a blank final line')
+
+  t.end()
+})
+
+test("native line breaks", function(t) {
+  var obj = { foo:'bar', people: {bob:'awesome'} }
+    , lines = [ 'foo = bar'
+              , ''
+              , '[people]'
+              , 'bob = awesome'
+              , ''
+              ]
+
+  process.platform = "linux"
+  e = i.encode(obj)
+  t.deepEqual(e, lines.join("\n"), 'Unix line breaks')
+
+  process.platform = "win32"
+  e = i.encode(obj)
+  t.deepEqual(e, lines.join("\r\n"), 'Windows line breaks')
+
   t.end()
 })
