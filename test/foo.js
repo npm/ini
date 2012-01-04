@@ -32,13 +32,13 @@ var i = require("../")
     }
 
 test("decode from file", function (t) {
-  d = i.decode(data)
+  var d = i.decode(data)
   t.deepEqual(d, expectD)
   t.end()
 })
 
 test("encode from data", function (t) {
-  e = i.encode(expectD)
+  var e = i.encode(expectD)
   t.deepEqual(e, expectE)
 
   var obj = {log: { type:'file', level: {label:'debug', value:10} } }
