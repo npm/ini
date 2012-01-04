@@ -41,3 +41,20 @@ test("encode from data", function (t) {
   t.deepEqual(e, expectE)
   t.end()
 })
+
+test("encode with newlines", function(t) {
+  e = i.encode(expectD, null, "\n")
+  t.deepEqual(e, spacedE('\n'))
+
+  e = i.encode(expectD, null, "\r\n")
+  t.deepEqual(e, spacedE('\r\n'))
+
+  t.end()
+
+  function spacedE(chr) {
+    function fix(line) { return line.replace(/^\[/, chr+'[') }
+    return expectE.split(/\n/)
+                  .map(fix)
+                  .join('\n')
+  }
+})

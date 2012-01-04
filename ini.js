@@ -5,9 +5,11 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-function encode (obj, section) {
+function encode (obj, section, separator) {
   var children = []
     , out = ""
+
+  separator = separator || ""
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
@@ -19,11 +21,11 @@ function encode (obj, section) {
   })
 
   if (section && out.length) {
-    out = "[" + safe(section) + "]" + "\n" + out
+    out = separator + "[" + safe(section) + "]" + "\n" + out
   }
 
   children.forEach(function (k, _, __) {
-    out += encode(obj[k], (section ? section + "." : "") + k)
+    out += encode(obj[k], (section ? section + "." : "") + k, separator)
   })
 
   return out
