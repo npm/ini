@@ -27,11 +27,15 @@ var i = require("../")
       'a with spaces': 'b  c',
       " xa  n          p ":'"\r\nyoyoyo\r\r\n',
       '[disturbing]': 'hey you never know',
+      'zr': ['deedee'],
+      'ar': ['one', 'three', 'this is included'],
+      'br': 'warm',
       a:
        { av: 'a val',
          e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
          j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
          "[]": "a square?",
+         cr: ['four', 'eight'],
          b: { c: { e: '1', j: '2' } } },
       'x.y.z': {
         'x.y.z': 'xyz',
