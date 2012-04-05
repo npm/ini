@@ -13,7 +13,12 @@ function encode (obj, section) {
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
-    if (val && typeof val === "object") {
+    if (val && Array.isArray(val)) {
+        val.forEach(function(item) {
+            out += safe(k + "[]") + " = " + safe(item) + "\n"
+        })
+    }
+    else if (val && typeof val === "object") {
       children.push(k)
     } else {
       out += safe(k) + " = " + safe(val) + eol
