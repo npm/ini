@@ -28,7 +28,7 @@ var i = require("../")
          e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
          j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
          "[]": "a square?",
-         b: { c: { e: '1', j: '2' } } }
+         b: { c: { e: 1, j: 2 } } }
     }
 
 test("decode from file", function (t) {
