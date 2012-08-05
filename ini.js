@@ -57,6 +57,11 @@ function decode (str) {
     }
     var key = unsafe(match[2])
       , value = match[3] ? unsafe((match[4] || "")) : true
+
+    try {
+      value = JSON.parse(value)
+    } catch (_) {}
+
     p[key] = value
   })
 
