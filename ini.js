@@ -33,7 +33,7 @@ function encode (obj, section) {
   return out
 }
 
-function decode (str) {
+function decode (str, hydrate) {
   var out = {}
     , p = out
     , section = null
@@ -57,7 +57,7 @@ function decode (str) {
     }
     var key = unsafe(match[2])
       , value = match[3] ? unsafe((match[4] || "")) : true
-    p[key] = value
+    p[key] = ('function' === typeof hydrate ? hydrate(value) : value)
   })
 
   // {a:{y:1},"a.b":{x:2}} --> {a:{y:1,b:{x:2}}}
