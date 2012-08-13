@@ -23,7 +23,8 @@ function encode (obj, section) {
   }
 
   children.forEach(function (k, _, __) {
-    var child = encode(obj[k], (section ? section + "." : "") + k)
+    var nk = dotSplit(k).join('\\.')
+    var child = encode(obj[k], (section ? section + "." : "") + nk)
     if (out.length && child.length) {
       out += "\n"
     }
@@ -31,6 +32,15 @@ function encode (obj, section) {
   })
 
   return out
+}
+
+function dotSplit (str) {
+  return str.replace(/\1/g, '\2LITERAL\\1LITERAL\2')
+         .replace(/\\\./g, '\1')
+         .split(/\./).map(function (part) {
+           return part.replace(/\1/g, '\\.')
+                  .replace(/\2LITERAL\\1LITERAL\2/g, '\1')
+         })
 }
 
 function decode (str) {
@@ -71,15 +81,16 @@ function decode (str) {
     if (!out[k] || typeof out[k] !== "object") return false
     // see if the parent section is also an object.
     // if so, add it to that, and mark this one for deletion
-    var parts = k.split(".")
+    var parts = dotSplit(k)
       , p = out
       , l = parts.pop()
+      , nl = l.replace(/\\\./g, '.')
     parts.forEach(function (part, _, __) {
       if (!p[part] || typeof p[part] !== "object") p[part] = {}
       p = p[part]
     })
-    if (p === out) return false
-    p[l] = out[k]
+    if (p === out && nl === l) return false
+    p[nl] = out[k]
     return true
   }).forEach(function (del, _, __) {
     delete out[del]

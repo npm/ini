@@ -17,7 +17,10 @@ var i = require("../")
             + '{ av: a val, b: { c: { e: "this [value]" '
             + '} } } }\nj = "\\"{ o: \\"p\\", a: { av:'
             + ' \\"a val\\", b: { c: { e: \\"this [value]'
-            + '\\" } } } }\\""\n"[]" = a square?\n\n[a.b.c]\ne = 1\nj = 2\n'
+            + '\\" } } } }\\""\n"[]" = a square?\n\n[a.b.c]\ne = 1\n'
+            + 'j = 2\n\n[x\\.y\\.z]\nx.y.z = xyz\n\n'
+            + '[x\\.y\\.z.a\\.b\\.c]\n'
+            + 'a.b.c = abc\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
@@ -28,7 +31,13 @@ var i = require("../")
          e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
          j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
          "[]": "a square?",
-         b: { c: { e: '1', j: '2' } } }
+         b: { c: { e: '1', j: '2' } } },
+      'x.y.z': {
+        'x.y.z': 'xyz',
+        'a.b.c': {
+          'a.b.c': 'abc'
+        }
+      }
     }
 
 test("decode from file", function (t) {
