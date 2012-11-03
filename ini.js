@@ -13,7 +13,11 @@ function encode (obj, section) {
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
-    if (val && typeof val === "object") {
+    if( Object.prototype.toString.call(val) === "[object Array]" ){
+      for( var i = 0; i < val.length; i++){
+        out += safe(k) + "[] = " + safe(val[i]) + eol  
+      }    
+    }else if (val && typeof val === "object") {
       children.push(k)
     } else {
       out += safe(k) + " = " + safe(val) + eol
@@ -71,6 +75,21 @@ function decode (str) {
       case 'false':
       case 'null': value = JSON.parse(value)
     }
+
+    var newkey = key.replace('[]','');
+    if( key.indexOf('[]') !== -1 && newkey != '' ){
+        var oldvalue = p[newkey];
+        if( oldvalue == undefined ){
+          var newarray = [];
+          newarray.push(value);
+          value = newarray;
+        }else{
+          oldvalue.push(value);
+          value = oldvalue;
+        }
+        key = newkey;
+    }
+
     p[key] = value
   })
 
