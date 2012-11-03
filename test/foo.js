@@ -21,7 +21,11 @@ var i = require("../")
             + 'j = 2\n\n[x\\.y\\.z]\nx.y.z = xyz\n\n'
             + '[x\\.y\\.z.a\\.b\\.c]\n'
             + 'a.b.c = abc\n'
-            + 'nocomment = this\\; this is not a comment\n'
+            + 'nocomment = this\\; this is not a comment\n\n'
+            + '[favcolors]\n'
+            + 'fav[] = green\n'
+            + 'fav[] = blue\n'
+            + 'fav[] = yellow\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
@@ -39,6 +43,9 @@ var i = require("../")
           'a.b.c': 'abc',
           'nocomment': 'this\; this is not a comment'
         }
+      },
+      'favcolors' : {
+        'fav': ['green','blue','yellow']
       }
     }
 
