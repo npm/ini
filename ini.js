@@ -142,7 +142,7 @@ function unsafe (val, doUnesc) {
   val = (val || "").trim()
   if (isQuoted(val)) {
     // remove the single quotes before calling JSON.parse
-    if (val[0] === "'") {
+    if (val.charAt(0) === "'") {
       val = val.substr(1, val.length - 2);
     }
     try { val = JSON.parse(val) } catch (_) {}
