@@ -122,13 +122,17 @@ function decode (str) {
   return out
 }
 
+function isQuoted (val) {
+  return (val.charAt(0) === "\"" && val.slice(-1) === "\"")
+         || (val.charAt(0) === "'" && val.slice(-1) === "'")
+}
+
 function safe (val) {
   return ( typeof val !== "string"
          || val.match(/[\r\n]/)
          || val.match(/^\[/)
          || (val.length > 1
-             && val.charAt(0) === "\""
-             && val.slice(-1) === "\"")
+             && isQuoted(val))
          || val !== val.trim() )
          ? JSON.stringify(val)
          : val.replace(/;/g, '\\;')
@@ -136,7 +140,11 @@ function safe (val) {
 
 function unsafe (val, doUnesc) {
   val = (val || "").trim()
-  if (val.charAt(0) === "\"" && val.slice(-1) === "\"") {
+  if (isQuoted(val)) {
+    // remove the single quotes before calling JSON.parse
+    if (val[0] === "'") {
+      val = val.substr(1, val.length - 2);
+    }
     try { val = JSON.parse(val) } catch (_) {}
   } else {
     // walk the val to find the first not-escaped ; character

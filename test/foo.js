@@ -10,6 +10,8 @@ var i = require("../")
             + 'a with spaces = b  c\n'
             + '" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"\n'
             + '"[disturbing]" = hey you never know\n'
+            + 's = something\n'
+            + 's2 = something else\n'
             + 'zr[] = deedee\n'
             + 'ar[] = one\n'
             + 'ar[] = three\n'
@@ -33,6 +35,8 @@ var i = require("../")
       'a with spaces': 'b  c',
       " xa  n          p ":'"\r\nyoyoyo\r\r\n',
       '[disturbing]': 'hey you never know',
+      's': 'something',
+      's2': 'something else',
       'zr': ['deedee'],
       'ar': ['one', 'three', 'this is included'],
       'br': 'warm',
