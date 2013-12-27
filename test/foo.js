@@ -28,6 +28,7 @@ var i = require("../")
             + 'j = 2\n\n[x\\.y\\.z]\nx.y.z = xyz\n\n'
             + '[x\\.y\\.z.a\\.b\\.c]\na.b.c = abc\n'
             + 'nocomment = this\\; this is not a comment\n'
+            + 'noHashComment = this\\# this is not a comment\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
@@ -47,7 +48,8 @@ var i = require("../")
         'x.y.z': 'xyz',
         'a.b.c': {
           'a.b.c': 'abc',
-          'nocomment': 'this\; this is not a comment'
+          'nocomment': 'this\; this is not a comment',
+          noHashComment: 'this\# this is not a comment'
         }
       }
     }

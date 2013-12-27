@@ -61,7 +61,7 @@ function decode (str) {
     , section = null
 
   lines.forEach(function (line, _, __) {
-    if (!line || line.match(/^\s*;/)) return
+    if (!line || line.match(/^\s*[;#]/)) return
     var match = line.match(re)
     if (!match) return
     if (match[1] !== undefined) {
@@ -131,7 +131,7 @@ function safe (val) {
              && val.slice(-1) === "\"")
          || val !== val.trim() )
          ? JSON.stringify(val)
-         : val.replace(/;/g, '\\;')
+         : val.replace(/;/g, '\\;').replace(/#/g, "\\#")
 }
 
 function unsafe (val, doUnesc) {
@@ -145,12 +145,12 @@ function unsafe (val, doUnesc) {
     for (var i = 0, l = val.length; i < l; i++) {
       var c = val.charAt(i)
       if (esc) {
-        if (c === "\\" || c === ";")
+        if ("\\;#".indexOf(c) !== -1)
           unesc += c
         else
           unesc += "\\" + c
         esc = false
-      } else if (c === ";") {
+      } else if (";#".indexOf(c) !== -1) {
         break
       } else if (c === "\\") {
         esc = true
