@@ -42,12 +42,12 @@ function encode (obj, section) {
 }
 
 function dotSplit (str) {
-  return str.replace(/\1/g, '\2LITERAL\\1LITERAL\2')
-         .replace(/\\\./g, '\1')
+  return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
+         .replace(/\\\./g, '\u0001')
          .split(/\./).map(function (part) {
            return part.replace(/\1/g, '\\.')
-                  .replace(/\2LITERAL\\1LITERAL\2/g, '\1')
-         })
+                  .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
+        })
 }
 
 function decode (str) {
