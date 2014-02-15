@@ -131,7 +131,7 @@ function safe (val) {
              && val.slice(-1) === "\"")
          || val !== val.trim() )
          ? JSON.stringify(val)
-         : val.replace(/;/g, '\\;')
+         : val.replace(/([;#])/g, '\\$1')
 }
 
 function unsafe (val, doUnesc) {
@@ -139,18 +139,20 @@ function unsafe (val, doUnesc) {
   if (val.charAt(0) === "\"" && val.slice(-1) === "\"") {
     try { val = JSON.parse(val) } catch (_) {}
   } else {
-    // walk the val to find the first not-escaped ; character
+    // walk the val to find the first not-escaped ; or # character
     var esc = false
     var unesc = "";
     for (var i = 0, l = val.length; i < l; i++) {
       var c = val.charAt(i)
       if (esc) {
-        if (c === "\\" || c === ";")
+        if (c === "\\" || c === ";" || c === "#")
           unesc += c
         else
           unesc += "\\" + c
         esc = false
       } else if (c === ";") {
+        break
+      } else if (c === "#") {
         break
       } else if (c === "\\") {
         esc = true
