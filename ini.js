@@ -50,7 +50,7 @@ function dotSplit (str) {
          })
 }
 
-function decode (str) {
+function decode (str, opts) {
   var out = {}
     , p = out
     , section = null
@@ -60,7 +60,10 @@ function decode (str) {
     , lines = str.split(/[\r\n]+/g)
     , section = null
 
-  lines.forEach(function (line, _, __) {
+  if (!opts) opts = {strict:false};
+  opts.strict = !!opts.strict;
+
+  lines.forEach(function (line, row, __) {
     if (!line || line.match(/^\s*;/)) return
     var match = line.match(re)
     if (!match) return
@@ -70,7 +73,16 @@ function decode (str) {
       return
     }
     var key = unsafe(match[2])
-      , value = match[3] ? unsafe((match[4] || "")) : true
+      , value
+
+    if (match[3]) {
+      value = unsafe((match[4] || ""))
+    } else if (!opts.strict) {
+      value = true
+    } else {
+      throw new Error('Line ' + (1+row) + ' is invalid, no value assigned')
+    }
+
     switch (value) {
       case 'true':
       case 'false':
