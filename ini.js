@@ -7,21 +7,28 @@ exports.unsafe = unsafe
 
 var eol = process.platform === "win32" ? "\r\n" : "\n"
 
-function encode (obj, section) {
+function encode (obj, options) {
   var children = []
     , out = ""
+
+  if (typeof options === 'string') {
+    options = { section: options };
+  }
+
+  var section = options.section;
+  var keyvalueSeparator = options.keyvalueSeparator || ' = ';
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
         val.forEach(function(item) {
-            out += safe(k + "[]") + " = " + safe(item) + "\n"
+            out += safe(k + "[]") + keyvalueSeparator + safe(item) + "\n"
         })
     }
     else if (val && typeof val === "object") {
       children.push(k)
     } else {
-      out += safe(k) + " = " + safe(val) + eol
+      out += safe(k) + keyvalueSeparator + safe(val) + eol
     }
   })
 
