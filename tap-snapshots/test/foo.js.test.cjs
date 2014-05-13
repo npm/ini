@@ -37,10 +37,19 @@ Null Object {
   ],
   "br": "warm",
   "eq": "eq=eq",
+  "false": false,
+  "null": null,
   "o": "p",
   "s": "something",
   "s1": "\\"something'",
   "s2": "something else",
+  "s3": "",
+  "s4": "",
+  "s5": "   ",
+  "s6": " a ",
+  "s7": true,
+  "true": true,
+  "undefined": "undefined",
   "x.y.z": Null Object {
     "a.b.c": Null Object {
       "a.b.c": "abc",
@@ -63,6 +72,15 @@ a with spaces=b  c
 s=something
 s1="something'
 s2=something else
+s3=
+s4=
+s5="   "
+s6=" a "
+s7=true
+true=true
+false=false
+null=null
+undefined=undefined
 zr[]=deedee
 ar[]=one
 ar[]=three
