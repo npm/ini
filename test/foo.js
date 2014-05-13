@@ -13,6 +13,15 @@ var i = require("../")
             + 's = something\n'
             + 's1 = \"something\'\n'
             + 's2 = something else\n'
+            + 's3 = \n'
+            + 's4 = \n'
+            + 's5 = "   "\n'
+            + 's6 = " a "\n'
+            + 's7 = true\n'
+            + 'true = true\n'
+            + 'false = false\n'
+            + 'null = null\n'
+            + 'undefined = undefined\n'
             + 'zr[] = deedee\n'
             + 'ar[] = one\n'
             + 'ar[] = three\n'
@@ -40,6 +49,15 @@ var i = require("../")
       's': 'something',
       's1' : '\"something\'',
       's2': 'something else',
+      's3': '',
+      's4': '',
+      's5': '   ',
+      's6': ' a ',
+      's7': true,
+      'true': true,
+      'false': false,
+      'null': null,
+      'undefined': 'undefined',
       'zr': ['deedee'],
       'ar': ['one', 'three', 'this is included'],
       'br': 'warm',
