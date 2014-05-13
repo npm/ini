@@ -5,7 +5,15 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-var eol = process.platform === "win32" ? "\r\n" : "\n"
+var eol;
+if (process) {
+  eol = process.platform === "win32" ? "\r\n" : "\n";
+} else if (Components.classes) {
+  // if using addons sdk for firefox extension
+  var os = Components.classes["@mozilla.org/xre/app-info;1"]
+                     .getService(Components.interfaces.nsIXULRuntime).OS;
+  eol = os === 'WINNT' ? "\r\n" : "\n";
+}
 
 function encode (obj, section) {
   var children = []
