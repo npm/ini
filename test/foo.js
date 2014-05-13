@@ -11,6 +11,7 @@ var i = require("../")
             + '" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"\n'
             + '"[disturbing]" = hey you never know\n'
             + 's = something\n'
+            + 's1 = \"something\'\n'
             + 's2 = something else\n'
             + 'zr[] = deedee\n'
             + 'ar[] = one\n'
@@ -37,6 +38,7 @@ var i = require("../")
       " xa  n          p ":'"\r\nyoyoyo\r\r\n',
       '[disturbing]': 'hey you never know',
       's': 'something',
+      's1' : '\"something\'',
       's2': 'something else',
       'zr': ['deedee'],
       'ar': ['one', 'three', 'this is included'],
