@@ -21,7 +21,7 @@ function encode (obj, section) {
     else if (val && typeof val === "object") {
       children.push(k)
     } else {
-      out += safe(k) + " = " + safe(val) + eol
+      out += safe(k) + "=" + safe(val) + eol
     }
   })
 
