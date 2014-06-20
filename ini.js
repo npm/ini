@@ -54,7 +54,6 @@ function decode (str) {
   var out = {}
     , p = out
     , section = null
-    , state = "START"
            // section     |key = value
     , re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
     , lines = str.split(/[\r\n]+/g)
