@@ -64,6 +64,11 @@ var i = require("../")
             + '[prefix.log.level]\n'
             + 'label=debug\n'
             + 'value=10\n'
+  , expectG = '[log]\n'
+            + 'type = file\n\n'
+            + '[log.level]\n'
+            + 'label = debug\n'
+            + 'value = 10\n'
 
 test("decode from file", function (t) {
   var d = i.decode(data)
@@ -87,6 +92,14 @@ test("encode with option", function (t) {
   var obj = {log: { type:'file', level: {label:'debug', value:10} } }
   e = i.encode(obj, {section: 'prefix'})
 
-  t.equal(e, expectF);
+  t.equal(e, expectF)
+  t.end()
+})
+
+test("encode with whitespace", function (t) {
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+  e = i.encode(obj, {whitespace: true})
+
+  t.equal(e, expectG)
   t.end()
 })
