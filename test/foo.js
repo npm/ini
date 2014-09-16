@@ -59,6 +59,11 @@ var i = require("../")
         }
       }
     }
+  , expectF = '[prefix.log]\n'
+            + 'type=file\n\n'
+            + '[prefix.log.level]\n'
+            + 'label=debug\n'
+            + 'value=10\n'
 
 test("decode from file", function (t) {
   var d = i.decode(data)
@@ -75,5 +80,13 @@ test("encode from data", function (t) {
   t.notEqual(e.slice(0, 1), '\n', 'Never a blank first line')
   t.notEqual(e.slice(-2), '\n\n', 'Never a blank final line')
 
+  t.end()
+})
+
+test("encode with option", function (t) {
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+  e = i.encode(obj, {section: 'prefix'})
+
+  t.equal(e, expectF);
   t.end()
 })
