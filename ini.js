@@ -14,11 +14,13 @@ function encode (obj, opt) {
   if (typeof opt === "string") {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      comments: false,
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.comments = opt.comments === true
   }
 
   var separator = opt.whitespace ? " = " : "="
@@ -32,6 +34,10 @@ function encode (obj, opt) {
     }
     else if (val && typeof val === "object") {
       children.push(k)
+    } else if(k.match(/\$com\$[0-9]+/)) {
+        if (opt.comments) {
+            out += val + eol
+        }
     } else {
       out += safe(k) + separator + safe(val) + eol
     }
@@ -46,7 +52,8 @@ function encode (obj, opt) {
     var section = (opt.section ? opt.section + "." : "") + nk
     var child = encode(obj[k], {
       section: section,
-      whitespace: opt.whitespace
+      whitespace: opt.whitespace,
+      comments : opt.comments
     })
     if (out.length && child.length) {
       out += eol
@@ -66,7 +73,7 @@ function dotSplit (str) {
         })
 }
 
-function decode (str) {
+function decode (str, opt) {
   var out = {}
     , p = out
     , section = null
@@ -75,9 +82,19 @@ function decode (str) {
     , re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
     , lines = str.split(/[\r\n]+/g)
     , section = null
+    , docKey = '$com$'
+    , docCount = 0
+    opt = opt || {}
+    opt.comments = opt.comments === true
 
   lines.forEach(function (line, _, __) {
-    if (!line || line.match(/^\s*[;#]/)) return
+    if (!line || line.match(/^\s*[;#]/)) {
+        if (opt.comments) {
+            line = docKey + (docCount++) + '=' + safe(line)
+        } else {
+            return
+        }
+    }
     var match = line.match(re)
     if (!match) return
     if (match[1] !== undefined) {
