@@ -66,8 +66,9 @@ function dotSplit (str) {
         })
 }
 
-function decode (str) {
-  var out = {}
+function decode (str, options) {
+  var options = options || {}
+    , out = {}
     , p = out
     , section = null
     , state = "START"
@@ -75,6 +76,10 @@ function decode (str) {
     , re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
     , lines = str.split(/[\r\n]+/g)
     , section = null
+
+  if(options.use_colons) {
+    re = /^\[([^\]]*)\]$|^([^:|^=]+)([:|=](.*))?$/i;
+  }
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
