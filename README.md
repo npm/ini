@@ -55,9 +55,15 @@ to the filesystem with the following content:
 
 ## API
 
-### decode(inistring)
+### decode(inistring, [options])
 
 Decode the ini-style formatted `inistring` into a nested object.
+
+The `options` object may contain the following:
+
+* `use_colons` If your ini-style formatted `inistring` also contains colons
+  instead of equal signs for value binding, set this value to `true`.
+  Defaults to `false`.
 
 ### parse(inistring)
 
