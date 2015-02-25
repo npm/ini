@@ -5,7 +5,7 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-var eol = process.platform === "win32" ? "\r\n" : "\n"
+var eol = "\n"
 
 function encode (obj, opt) {
   var children = []
@@ -14,11 +14,13 @@ function encode (obj, opt) {
   if (typeof opt === "string") {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      arrKeys: []
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.arrKeys = opt.arrKeys || []
   }
 
   var separator = opt.whitespace ? " = " : "="
@@ -27,7 +29,11 @@ function encode (obj, opt) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
         val.forEach(function(item) {
-            out += safe(k + "[]") + separator + safe(item) + "\n"
+            out += safe(k);
+            if (opt.arrKeys.indexOf(k) === -1) {
+              out += "[]"
+            }
+            out += separator + safe(item) + "\n"
         })
     }
     else if (val && typeof val === "object") {
@@ -66,7 +72,7 @@ function dotSplit (str) {
         })
 }
 
-function decode (str) {
+function decode (str, opt) {
   var out = {}
     , p = out
     , section = null
@@ -75,6 +81,9 @@ function decode (str) {
     , re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
     , lines = str.split(/[\r\n]+/g)
     , section = null
+    , opt = opt || {}
+
+  opt.arrKeys = opt.arrKeys || []
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -102,6 +111,11 @@ function decode (str) {
         else if (!Array.isArray(p[key])) {
           p[key] = [p[key]]
         }
+    }
+
+    // treat keys as arrays
+    if (opt.arrKeys.indexOf(key) > -1 && !p[key]) {
+        p[key] = []
     }
 
     // safeguard against resetting a previously defined
