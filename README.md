@@ -55,13 +55,32 @@ to the filesystem with the following content:
 
 ## API
 
-### decode(inistring)
+### decode(inistring, [options])
 
 Decode the ini-style formatted `inistring` into a nested object.
 
-### parse(inistring)
+The `options` object may contain the following:
 
-Alias for `decode(inistring)`
+* `arrKeys` An array containing the names of keys to treat as arrays.
+  Ideally, the names of these keys should be followed by square brackets,
+  like this:
+
+    array[]=first value
+    array[]=second value
+    array[]=third value
+    array[]=fourth value
+
+  This can be useful if you're stuck with an unconventional format,
+  like this:'
+
+    array=first value
+    array=second value
+    array=third value
+    array=fourth value
+
+### parse(inistring, [options])
+
+Alias for `decode(inistring, [options])`
 
 ### encode(object, [options])
 

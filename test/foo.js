@@ -105,3 +105,25 @@ test("encode with whitespace", function (t) {
   t.equal(e, expectG)
   t.end()
 })
+
+test("encode with arrKeys", function (t) {
+  var obj = {dr: ['who', 'doom', 'jones']}
+  , expect = 'dr=who\n'
+           + 'dr=doom\n'
+           + 'dr=jones\n'
+  , e = i.encode(obj, {arrKeys: 'dr'})
+
+  t.equal(e, expect)
+  t.end()
+})
+
+test("decode with arrKeys", function (t) {
+  var ini = 'dr=who\n'
+          + 'dr=doom\n'
+          + 'dr=jones\n'
+  , expect = {dr: ['who', 'doom', 'jones']}
+  , d = i.decode(ini, {arrKeys: 'dr'})
+
+  t.deepEqual(d, expect)
+  t.end()
+})
