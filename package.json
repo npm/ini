@@ -9,6 +9,7 @@
   },
   "main": "ini.js",
   "scripts": {
+    "pretest": "standard ini.js",
     "test": "tap test/*.js"
   },
   "engines": {
@@ -16,6 +17,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "standard": "^4.0.1",
     "tap": "^1.2.0"
   },
   "license": "ISC",
