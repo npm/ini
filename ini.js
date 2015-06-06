@@ -70,11 +70,9 @@ function decode (str) {
   var out = {}
     , p = out
     , section = null
-    , state = "START"
            // section     |key = value
     , re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
     , lines = str.split(/[\r\n]+/g)
-    , section = null
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
