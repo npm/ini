@@ -26,7 +26,7 @@ function encode (obj, opt) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        out += safe(k) + '[]' + separator + safe(item) + '\n'
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
@@ -145,7 +145,7 @@ function isQuoted (val) {
 
 function safe (val) {
   return (typeof val !== 'string' ||
-    val.match(/[=\r\n]/) ||
+    val.match(/[=\r\n\[?{}|~!()^]/) ||
     val.match(/^\[/) ||
     (val.length > 1 &&
      isQuoted(val)) ||
@@ -161,7 +161,11 @@ function unsafe (val, doUnesc) {
     if (val.charAt(0) === "'") {
       val = val.substr(1, val.length - 2)
     }
-    try { val = JSON.parse(val) } catch (_) {}
+    try { val = JSON.parse(val) } catch (_) {
+      if (val.charAt(0) === '"') {
+        val = val.substr(1, val.length - 2)
+      }
+    }
   } else {
     // walk the val to find the first not-escaped ; character
     var esc = false
