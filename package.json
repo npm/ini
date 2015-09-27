@@ -18,7 +18,7 @@
   "dependencies": {},
   "devDependencies": {
     "standard": "^4.0.1",
-    "tap": "^1.2.0"
+    "tap": "^2.0.0"
   },
   "license": "ISC",
   "files": [
