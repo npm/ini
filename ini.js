@@ -13,13 +13,19 @@ function encode (obj, opt) {
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      eol: eol
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.eol = opt.eol || eol
   }
 
+  if (['\r\n', '\n'].indexOf(opt.eol) === -1) {
+    opt.eol = eol;
+  }
+  
   var separator = opt.whitespace ? ' = ' : '='
 
   Object.keys(obj).forEach(function (k, _, __) {
@@ -31,12 +37,12 @@ function encode (obj, opt) {
     } else if (val && typeof val === 'object') {
       children.push(k)
     } else {
-      out += safe(k) + separator + safe(val) + eol
+      out += safe(k) + separator + safe(val) + opt.eol
     }
   })
 
   if (opt.section && out.length) {
-    out = '[' + safe(opt.section) + ']' + eol + out
+    out = '[' + safe(opt.section) + ']' + opt.eol + out
   }
 
   children.forEach(function (k, _, __) {
@@ -47,7 +53,7 @@ function encode (obj, opt) {
       whitespace: opt.whitespace
     })
     if (out.length && child.length) {
-      out += eol
+      out += opt.eol
     }
     out += child
   })
