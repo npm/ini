@@ -50,7 +50,8 @@ function encode (obj, opt) {
     var section = (opt.section ? opt.section + '.' : '') + nk
     var child = encode(obj[k], {
       section: section,
-      whitespace: opt.whitespace
+      whitespace: opt.whitespace,
+      eol: opt.eol
     })
     if (out.length && child.length) {
       out += opt.eol
