@@ -151,7 +151,7 @@ function safe (val) {
      isQuoted(val)) ||
     val !== val.trim()) ?
       JSON.stringify(val) :
-      val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+      val.replace(/;/g, ';').replace(/#/g, '\\#')
 }
 
 function unsafe (val, doUnesc) {
@@ -175,8 +175,6 @@ function unsafe (val, doUnesc) {
           unesc += '\\' + c
         }
         esc = false
-      } else if (';#'.indexOf(c) !== -1) {
-        break
       } else if (c === '\\') {
         esc = true
       } else {
