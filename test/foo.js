@@ -32,7 +32,13 @@ var i = require("../")
             + 'j=2\n\n[x\\.y\\.z]\nx.y.z=xyz\n\n'
             + '[x\\.y\\.z.a\\.b\\.c]\na.b.c=abc\n'
             + 'nocomment=this\\; this is not a comment\n'
-            + 'noHashComment=this\\# this is not a comment\n'
+            + 'noHashComment=this\\# this is not a comment\n\n'
+            + '[filters.boolean]\n'
+            + 'bn1=Yes\n'
+            + 'bn2=On\n'
+            + 'bn3=Off\n'
+            + 'bn4=No\n'
+            + 'bn5=None\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
@@ -59,6 +65,15 @@ var i = require("../")
           'nocomment': 'this\; this is not a comment',
           noHashComment: 'this\# this is not a comment'
         }
+      },
+      filters: {
+        boolean: {
+          bn1: 'Yes',
+          bn2: 'On',
+          bn3: 'Off',
+          bn4: 'No',
+          bn5: 'None'
+        }
       }
     }
   , expectF = '[prefix.log]\n'
@@ -71,11 +86,24 @@ var i = require("../")
             + '[log.level]\n'
             + 'label = debug\n'
             + 'value = 10\n'
+  , expectH = {
+            bn1: true,
+            bn2: true,
+            bn3: false,
+            bn4: false,
+            bn5: false
+    }
 
 test("decode from file", function (t) {
   var d = i.decode(data)
   t.deepEqual(d, expectD)
   t.end()
+})
+
+test("decode with zendBoolean", function (t) {
+    var d = i.decode(data, i.filters.decode.zendBoolean)
+    t.deepEqual(d.filters.boolean, expectH)
+    t.end()
 })
 
 test("encode from data", function (t) {

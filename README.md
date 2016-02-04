@@ -55,13 +55,30 @@ to the filesystem with the following content:
 
 ## API
 
-### decode(inistring)
+### decode(inistring, [filters])
 
 Decode the ini-style formatted `inistring` into a nested object.
+Optionally `filters` may be provided to manipulate the values, the
+caveat is that a filter will be applied to ALL values, so the onus
+is on the user to return an unaltered value if no modification should
+take place.
 
-### parse(inistring)
+The `filters` object may contain the following:
 
-Alias for `decode(inistring)`
+* `function(key, value): value` a single callback accepting a
+  key and a value and returning the new value
+* `[filters]` an array of callbacks in the order in which they should
+  be executed
+
+#### Predefined Filters
+
+* zendBoolean: normalizes [Zend Boolean](http://php.net/manual/en/configuration.file.php) values as true|false
+
+      ini.decode(inistring, ini.filters.decode.zendBoolean)
+
+### parse(inistring, [filters])
+
+Alias for `decode(inistring, [filters])`
 
 ### encode(object, [options])
 

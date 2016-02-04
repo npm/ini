@@ -4,6 +4,22 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
+exports.filters = {
+  decode: {
+    zendBoolean: function (key, value) {
+      if (typeof value !== 'string' || value.length > 4) return value
+      switch (value.toLowerCase()) {
+        case 'on':
+        case 'yes': return true
+        case 'off':
+        case 'no':
+        case 'none': return false
+        default: return value
+      }
+    }
+  }
+}
+
 var eol = process.platform === 'win32' ? '\r\n' : '\n'
 
 function encode (obj, opt) {
@@ -64,7 +80,8 @@ function dotSplit (str) {
   })
 }
 
-function decode (str) {
+function decode (str, filters) {
+  filters = Array.isArray(filters) ? filters : (typeof filters !== 'undefined' ? [filters] : [])
   var out = {}
   var p = out
   var section = null
@@ -98,6 +115,10 @@ function decode (str) {
         p[key] = [p[key]]
       }
     }
+
+    filters.forEach(function (filter) {
+      value = filter(key, value)
+    })
 
     // safeguard against resetting a previously defined
     // array by accidentally forgetting the brackets
