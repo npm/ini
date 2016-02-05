@@ -6,32 +6,37 @@ exports.unsafe = unsafe
 
 var eol = process.platform === 'win32' ? '\r\n' : '\n'
 
-function encode (obj, opt) {
+function encode (obj, opt, depth) {
   var children = []
   var out = ''
 
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      indentation: 0
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.indentation = opt.indentation || 0
   }
 
+  depth = depth || 0
+
   var separator = opt.whitespace ? ' = ' : '='
+  var indentation = (new Array((opt.indentation * depth) + 1)).join(' ')
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        out += indentation + safe(k + '[]') + separator + safe(item) + '\n'
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
     } else {
-      out += safe(k) + separator + safe(val) + eol
+      out += indentation + safe(k) + separator + safe(val) + eol
     }
   })
 
@@ -44,12 +49,13 @@ function encode (obj, opt) {
     var section = (opt.section ? opt.section + '.' : '') + nk
     var child = encode(obj[k], {
       section: section,
-      whitespace: opt.whitespace
-    })
+      whitespace: opt.whitespace,
+      indentation: opt.indentation
+    }, depth + 1)
     if (out.length && child.length) {
       out += eol
     }
-    out += child
+    out += indentation + child
   })
 
   return out

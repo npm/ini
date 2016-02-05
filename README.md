@@ -78,6 +78,9 @@ The `options` object may contain the following:
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+* `indentation` A number of indentation spaces to be added as prefix
+  for each new deepth level. Defaults to none. Mostly useful to improve
+  readability.
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.
