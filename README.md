@@ -7,51 +7,54 @@ heading are saved on the object directly.
 
 Consider an ini-file `config.ini` that looks like this:
 
-    ; this comment is being ignored
-    scope = global
+```ini
+; this comment is being ignored
+scope = global
 
-    [database]
-    user = dbuser
-    password = dbpassword
-    database = use_this_database
+[database]
+user = dbuser
+password = dbpassword
+database = use_this_database
 
-    [paths.default]
-    datadir = /var/lib/data
-    array[] = first value
-    array[] = second value
-    array[] = third value
-
+[paths.default]
+datadir = /var/lib/data
+array[] = first value
+array[] = second value
+array[] = third value
+```
 You can read, manipulate and write the ini-file like so:
 
-    var fs = require('fs')
-      , ini = require('ini')
+```js
+var fs = require('fs')
+  , ini = require('ini')
 
-    var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
+var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
 
-    config.scope = 'local'
-    config.database.database = 'use_another_database'
-    config.paths.default.tmpdir = '/tmp'
-    delete config.paths.default.datadir
-    config.paths.default.array.push('fourth value')
+config.scope = 'local'
+config.database.database = 'use_another_database'
+config.paths.default.tmpdir = '/tmp'
+delete config.paths.default.datadir
+config.paths.default.array.push('fourth value')
 
-    fs.writeFileSync('./config_modified.ini', ini.stringify(config, { section: 'section' }))
-
+fs.writeFileSync('./config_modified.ini', ini.stringify(config, { section: 'section' }))
+```
 This will result in a file called `config_modified.ini` being written
 to the filesystem with the following content:
 
-    [section]
-    scope=local
-    [section.database]
-    user=dbuser
-    password=dbpassword
-    database=use_another_database
-    [section.paths.default]
-    tmpdir=/tmp
-    array[]=first value
-    array[]=second value
-    array[]=third value
-    array[]=fourth value
-
+```ini
+[section]
+scope=local
+[section.database]
+user=dbuser
+password=dbpassword
+database=use_another_database
+[section.paths.default]
+tmpdir=/tmp
+array[]=first value
+array[]=second value
+array[]=third value
+array[]=fourth value
+```
 
 ## API
 
@@ -90,9 +93,9 @@ Alias for `encode(object, [options])`
 
 Escapes the string `val` such that it is safe to be used as a key or
 value in an ini-file. Basically escapes quotes. For example
-
-    ini.safe('"unsafe string"')
-
+```js
+ini.safe('"unsafe string"')
+```
 would result in
 
     "\"unsafe string\""
