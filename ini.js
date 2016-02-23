@@ -176,6 +176,7 @@ function unsafe (val, doUnesc) {
         }
         esc = false
       } else if (';#'.indexOf(c) !== -1) {
+        unesc = unesc.trim()
         break
       } else if (c === '\\') {
         esc = true
