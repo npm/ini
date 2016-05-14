@@ -13,11 +13,13 @@ function encode (obj, opt) {
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      safe: true
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.safe = opt.hasOwnProperty('safe') ? opt.safe : true; // Safe encoding is true by default
   }
 
   var separator = opt.whitespace ? ' = ' : '='
@@ -31,7 +33,7 @@ function encode (obj, opt) {
     } else if (val && typeof val === 'object') {
       children.push(k)
     } else {
-      out += safe(k) + separator + safe(val) + eol
+      out += safe(k) + separator + (opt.safe ? safe(val) : val) + eol
     }
   })
 
@@ -44,7 +46,8 @@ function encode (obj, opt) {
     var section = (opt.section ? opt.section + '.' : '') + nk
     var child = encode(obj[k], {
       section: section,
-      whitespace: opt.whitespace
+      whitespace: opt.whitespace,
+      safe: opt.safe
     })
     if (out.length && child.length) {
       out += eol

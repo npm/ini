@@ -78,6 +78,10 @@ The `options` object may contain the following:
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+* `safe` Allows for unsafe encoding of values. If false, `I am a string=` 
+  would not result in `key="I am a string=" but in `key=I am a string=`. 
+  This might be useful when using other parsers that do not understand 
+  a quoted value
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.
