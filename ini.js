@@ -19,7 +19,7 @@ function encode (obj, opt) {
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
-    opt.safe = opt.hasOwnProperty('safe') ? opt.safe : true; // Safe encoding is true by default
+    opt.safe = opt.hasOwnProperty('safe') ? opt.safe : true // Safe encoding is true by default
   }
 
   var separator = opt.whitespace ? ' = ' : '='
