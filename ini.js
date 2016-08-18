@@ -42,6 +42,9 @@ function encode (obj, opt) {
   children.forEach(function (k, _, __) {
     var nk = dotSplit(k).join('\\.')
     var section = (opt.section ? opt.section + '.' : '') + nk
+    if (typeof obj[k] == 'object' && Object.keys(obj[k]).length == 0) {
+      out += "[" + safe(k) + "]" + eol
+    }        
     var child = encode(obj[k], {
       section: section,
       whitespace: opt.whitespace
