@@ -88,7 +88,6 @@ function decode (str) {
       case 'false':
       case 'null': value = JSON.parse(value)
     }
-
     // Convert keys with '[]' suffix to an array
     if (key.length > 2 && key.slice(-2) === '[]') {
       key = key.substring(0, key.length - 2)
@@ -96,6 +95,17 @@ function decode (str) {
         p[key] = []
       } else if (!Array.isArray(p[key])) {
         p[key] = [p[key]]
+      }
+    } else {
+      // Convert keys with '[foo]' suffix to an object
+      var subKey = key.replace(new RegExp(/ *\[[^)]*\] */g), '')
+      var subValue = key.match(/\[(.*?)\]/)
+      if (subValue) {
+        subValue = subValue[1]
+        if (!p[subKey])
+          p[subKey] = {}
+        p[subKey][subValue] = value
+        return
       }
     }
 
