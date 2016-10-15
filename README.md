@@ -78,6 +78,10 @@ The `options` object may contain the following:
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+* `newline` Boolean to specify whether to put an additional newline
+  after a section header. Some INI file parsers (for example the TOSHIBA
+  FlashAir one) need this to parse the file successfully.  By default,
+  the additional newline is omitted.
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.

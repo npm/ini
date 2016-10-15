@@ -71,6 +71,11 @@ var i = require("../")
             + '[log.level]\n'
             + 'label = debug\n'
             + 'value = 10\n'
+  , expectH = '[log]\n\n'
+            + 'type=file\n\n'
+            + '[log.level]\n\n'
+            + 'label=debug\n'
+            + 'value=10\n'
 
 test("decode from file", function (t) {
   var d = i.decode(data)
@@ -103,5 +108,13 @@ test("encode with whitespace", function (t) {
   e = i.encode(obj, {whitespace: true})
 
   t.equal(e, expectG)
+  t.end()
+})
+
+test("encode with newline", function (t) {
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+  e = i.encode(obj, {newline: true})
+
+  t.equal(e, expectH)
   t.end()
 })
