@@ -44,3 +44,11 @@ test('encode with whitespace', function (t) {
   t.matchSnapshot(e)
   t.end()
 })
+
+test('encode with newline', function (t) {
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj, { newline: true })
+
+  t.matchSnapshot(e)
+  t.end()
+})
