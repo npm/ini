@@ -4,8 +4,6 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-var eol = process.platform === 'win32' ? '\r\n' : '\n'
-
 function encode (obj, opt) {
   var children = []
   var out = ''
@@ -14,14 +12,17 @@ function encode (obj, opt) {
     opt = {
       section: opt,
       whitespace: false,
-      newline: false
+      newline: false,
+      platform: process.platform
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
     opt.newline = opt.newline === true
+    opt.platform = opt.platform || process.platform
   }
 
+  var eol = opt.platform === 'win32' ? '\r\n' : '\n'
   var separator = opt.whitespace ? ' = ' : '='
 
   Object.keys(obj).forEach(function (k, _, __) {
@@ -47,7 +48,8 @@ function encode (obj, opt) {
     var child = encode(obj[k], {
       section: section,
       whitespace: opt.whitespace,
-      newline: opt.newline
+      newline: opt.newline,
+      platform: opt.platform
     })
     if (out.length && child.length) {
       out += eol

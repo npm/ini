@@ -76,6 +76,11 @@ var i = require("../")
             + '[log.level]\n\n'
             + 'label=debug\n'
             + 'value=10\n'
+  , expectI = '[log]\r\n'
+            + 'type=file\r\n\r\n'
+            + '[log.level]\r\n'
+            + 'label=debug\r\n'
+            + 'value=10\r\n'
 
 test("decode from file", function (t) {
   var d = i.decode(data)
@@ -116,5 +121,13 @@ test("encode with newline", function (t) {
   e = i.encode(obj, {newline: true})
 
   t.equal(e, expectH)
+  t.end()
+})
+
+test("encode with CR+LF", function (t) {
+  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
+  e = i.encode(obj, {platform: 'win32'})
+
+  t.equal(e, expectI)
   t.end()
 })
