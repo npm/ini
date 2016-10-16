@@ -52,3 +52,11 @@ test('encode with newline', function (t) {
   t.matchSnapshot(e)
   t.end()
 })
+
+test('encode with platform=win32', function (t) {
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj, { platform: 'win32' })
+
+  t.matchSnapshot(e.split('\r\n'))
+  t.end()
+})

@@ -86,6 +86,10 @@ The `options` object may contain the following:
   after a section header. Some INI file parsers (for example the TOSHIBA
   FlashAir one) need this to parse the file successfully.  By default,
   the additional newline is omitted.
+* `platform` String to define which platform this INI file is expected
+  to be used with: when `platform` is `win32`, line terminations are
+  CR+LF, for other platforms line termination is LF.  By default the
+  current platform name is used.
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.
