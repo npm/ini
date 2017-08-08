@@ -55,13 +55,20 @@ to the filesystem with the following content:
 
 ## API
 
-### decode(inistring)
+### decode(inistring, [options])
 
 Decode the ini-style formatted `inistring` into a nested object.
 
-### parse(inistring)
+`options`, when provided, must be an object with zero or more of the
+following keys:
 
-Alias for `decode(inistring)`
+* `literalDot` A boolean indicating whether a dot should be treated
+  as part of the property name, rather than as a section delimiter.
+  Defaults to `false`. If `true`, no nested sections will be created.
+
+### parse(inistring, [options])
+
+Alias for `decode(inistring, options)`
 
 ### encode(object, [options])
 
