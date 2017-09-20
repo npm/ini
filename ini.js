@@ -70,7 +70,12 @@ function decode (str) {
   var section = null
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
-  var lines = str.split(/[\r\n]+/g)
+  var lines = [];
+  str = str.toString();
+  
+  if(str.length > 0){
+	lines = str.split(/[\r\n]+/g);
+  }
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
