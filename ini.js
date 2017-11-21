@@ -59,9 +59,9 @@ function dotSplit (str) {
   return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
     .replace(/\\\./g, '\u0001')
     .split(/\./).map(function (part) {
-    return part.replace(/\1/g, '\\.')
+      return part.replace(/\1/g, '\\.')
       .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
-  })
+    })
 }
 
 function decode (str) {
@@ -149,9 +149,9 @@ function safe (val) {
     val.match(/^\[/) ||
     (val.length > 1 &&
      isQuoted(val)) ||
-    val !== val.trim()) ?
-      JSON.stringify(val) :
-      val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+    val !== val.trim())
+      ? JSON.stringify(val)
+      : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
 }
 
 function unsafe (val, doUnesc) {
