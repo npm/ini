@@ -4,7 +4,7 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-var eol = process.platform === 'win32' ? '\r\n' : '\n'
+var eol = typeof process !== 'undefined' && process.platform === 'win32' ? '\r\n' : '\n'
 
 function encode (obj, opt) {
   var children = []
