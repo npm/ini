@@ -1,10 +1,12 @@
 exports.parse = exports.decode = decode
+
 exports.stringify = exports.encode = encode
 
 exports.safe = safe
 exports.unsafe = unsafe
 
-var eol = typeof process !== 'undefined' && process.platform === 'win32' ? '\r\n' : '\n'
+var eol = typeof process !== 'undefined' &&
+  process.platform === 'win32' ? '\r\n' : '\n'
 
 function encode (obj, opt) {
   var children = []
@@ -82,7 +84,7 @@ function decode (str) {
       return
     }
     var key = unsafe(match[2])
-    var value = match[3] ? unsafe((match[4] || '')) : true
+    var value = match[3] ? unsafe(match[4]) : true
     switch (value) {
       case 'true':
       case 'false':
@@ -186,7 +188,7 @@ function unsafe (val, doUnesc) {
     if (esc) {
       unesc += '\\'
     }
-    return unesc
+    return unesc.trim()
   }
   return val
 }

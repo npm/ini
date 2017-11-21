@@ -10,7 +10,7 @@
   "main": "ini.js",
   "scripts": {
     "pretest": "standard ini.js",
-    "test": "tap test/*.js"
+    "test": "tap test/*.js --100"
   },
   "engines": {
     "node": "*"
