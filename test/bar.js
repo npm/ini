@@ -15,7 +15,7 @@ test('parse(stringify(x)) deepEqual x', function (t) {
 
   for (var k in data) {
     var s = ini.stringify(data[k])
-    console.log(s, data[k])
+    t.comment(s, data[k])
     t.deepEqual(ini.parse(s), data[k])
   }
 
