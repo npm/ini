@@ -17,11 +17,13 @@ function encode (obj, opt) {
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      commentDelimiters: DEFAULT_COMMENT_DELIMITERS
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.commentDelimiters = opt.commentDelimiters || DEFAULT_COMMENT_DELIMITERS
   }
 
   var separator = opt.whitespace ? ' = ' : '='
@@ -30,17 +32,17 @@ function encode (obj, opt) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        out += safe(k + '[]', opt) + separator + safe(item, opt) + '\n'
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
     } else {
-      out += safe(k) + separator + safe(val) + eol
+      out += safe(k, opt) + separator + safe(val, opt) + eol
     }
   })
 
   if (opt.section && out.length) {
-    out = '[' + safe(opt.section) + ']' + eol + out
+    out = '[' + safe(opt.section, opt) + ']' + eol + out
   }
 
   children.forEach(function (k, _, __) {
@@ -48,7 +50,8 @@ function encode (obj, opt) {
     var section = (opt.section ? opt.section + '.' : '') + nk
     var child = encode(obj[k], {
       section: section,
-      whitespace: opt.whitespace
+      whitespace: opt.whitespace,
+      commentDelimiters: opt.commentDelimiters
     })
     if (out.length && child.length) {
       out += eol
@@ -149,7 +152,16 @@ function isQuoted (val) {
     (val.charAt(0) === "'" && val.slice(-1) === "'")
 }
 
-function safe (val) {
+function safe (val, opt) {
+  function replaceCommentDelimiters (val, delimList) {
+    for (const delimKey in delimList) {
+      val = val.replace(new RegExp(delimList[delimKey], 'g'), '\\' + delimList[delimKey])
+    }
+    return val
+  }
+
+  opt = opt || {}
+  opt.commentDelimiters = opt.commentDelimiters || DEFAULT_COMMENT_DELIMITERS
   return (typeof val !== 'string' ||
     val.match(/[=\r\n]/) ||
     val.match(/^\[/) ||
@@ -157,7 +169,7 @@ function safe (val) {
      isQuoted(val)) ||
     val !== val.trim())
       ? JSON.stringify(val)
-      : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+      : replaceCommentDelimiters(val, opt.commentDelimiters)
 }
 
 function unsafe (val, opt) {
