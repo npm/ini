@@ -5,6 +5,8 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
+const DEFAULT_COMMENT_DELIMITERS = [';', '#']
+
 var eol = typeof process !== 'undefined' &&
   process.platform === 'win32' ? '\r\n' : '\n'
 
@@ -66,7 +68,9 @@ function dotSplit (str) {
     })
 }
 
-function decode (str) {
+function decode (str, opt) {
+  opt = opt || {}
+  opt.commentDelimiters = opt.commentDelimiters || DEFAULT_COMMENT_DELIMITERS
   var out = {}
   var p = out
   var section = null
@@ -75,16 +79,16 @@ function decode (str) {
   var lines = str.split(/[\r\n]+/g)
 
   lines.forEach(function (line, _, __) {
-    if (!line || line.match(/^\s*[;#]/)) return
+    if (!line || line.match('^\\s*[' + opt.commentDelimiters.join('') + ']')) return
     var match = line.match(re)
     if (!match) return
     if (match[1] !== undefined) {
-      section = unsafe(match[1])
+      section = unsafe(match[1], opt)
       p = out[section] = out[section] || {}
       return
     }
-    var key = unsafe(match[2])
-    var value = match[3] ? unsafe(match[4]) : true
+    var key = unsafe(match[2], opt)
+    var value = match[3] ? unsafe(match[4], opt) : true
     switch (value) {
       case 'true':
       case 'false':
@@ -156,7 +160,9 @@ function safe (val) {
       : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
 }
 
-function unsafe (val, doUnesc) {
+function unsafe (val, opt) {
+  opt = opt || {}
+  opt.commentDelimiters = opt.commentDelimiters || DEFAULT_COMMENT_DELIMITERS
   val = (val || '').trim()
   if (isQuoted(val)) {
     // remove the single quotes before calling JSON.parse
@@ -171,13 +177,13 @@ function unsafe (val, doUnesc) {
     for (var i = 0, l = val.length; i < l; i++) {
       var c = val.charAt(i)
       if (esc) {
-        if ('\\;#'.indexOf(c) !== -1) {
+        if (('\\' + opt.commentDelimiters.join('')).indexOf(c) !== -1) {
           unesc += c
         } else {
           unesc += '\\' + c
         }
         esc = false
-      } else if (';#'.indexOf(c) !== -1) {
+      } else if (opt.commentDelimiters.join('').indexOf(c) !== -1) {
         break
       } else if (c === '\\') {
         esc = true
