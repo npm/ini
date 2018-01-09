@@ -26,5 +26,8 @@
   "license": "ISC",
   "files": [
     "ini.js"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

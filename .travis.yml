@@ -1,12 +1,17 @@
 language: node_js
 sudo: false
 node_js:
-  - 9
-  - 8
-  - 6
-  - 4
+- 9
+- 8
+- 6
+- 4
 notifications:
   email: false
 cache:
   directories:
-    - $HOME/.npm
+  - "$HOME/.npm"
+deploy:
+  provider: npm
+  email: leonard@marschke.me
+  api_key:
+    secure: lDJxu+nsEcqj5OykUTkoOQUQgfUnXGqAawiqbUcpmTRUGYdAkRUmDqYHW1v5evTkEsYNnDpFXb5bhJYv21Mg+bL31yGRCSdaPkYL15Gf1yNGMGbjQsm/p1FVoJwONiIjVWs5n5f0DmqdaYA/NPqMH06rgzxlntE/Q+Y0wec2vKDFWi0HBDuvO+N4IttUaniXuob2s8DXDgrGIU+neHFVqg0raQm/b8NpzfxlJXtfEOb8mFBQoSeYDtYfvJwfT1NX2wez7svvEn8YF4sIONY0hoyoF0jivLFVBoEFeTg+cTx9lgZLjcpnNU86RFl/xr39OGHGoW4jmk2nI1sa+PxhEwUNmnZF+PfwJcqNrGle5flBm9BDYnqxBDbhf/5DI8/uA/YefH2PQtNrV1UQVmjvRrKqNgqnkeXrggA4ZHjVIyQrLoA5xjGqHLxRzDXYx4Tk9626I150XOHu9t/rHyu9Hz8G9KFUqaU/TPyJ70kTM+ABt8PF7rCHq3i6LmlO2TEOFyUtemI/Ik5xjPxxIVQgNAN2yR4if0MdpsixKz3Ls5Vmj/n58abaIXmqMwkJjUF84+gfmLXKcs/M8NaYQHOdI3E5O21veV2ENyDSxFMMDrNuvskfqy4SkoobQajG9n8fooKiY0gn1OglcJOugo2QnXibmuNRFDdDG10KZM3nsB4=
