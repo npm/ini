@@ -55,11 +55,16 @@ to the filesystem with the following content:
 
 ## API
 
-### decode(inistring)
+### decode(inistring, [options])
 
 Decode the ini-style formatted `inistring` into a nested object.
 
-### parse(inistring)
+The `options` object may contain the following:
+
+* `commentDelimiters` A list of delimiters which can start a comment,
+  defaulting to `[';', '#']`
+
+### parse(inistring, opt)
 
 Alias for `decode(inistring)`
 
@@ -78,6 +83,8 @@ The `options` object may contain the following:
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+* `commentDelimiters` A list of delimiters which can start a comment,
+  defaulting to `[';', '#']`
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.
@@ -86,7 +93,7 @@ in, then it is assumed to be the `section` value.
 
 Alias for `encode(object, [options])`
 
-### safe(val)
+### safe(val, [options])
 
 Escapes the string `val` such that it is safe to be used as a key or
 value in an ini-file. Basically escapes quotes. For example
@@ -96,7 +103,17 @@ value in an ini-file. Basically escapes quotes. For example
 would result in
 
     "\"unsafe string\""
+    
+The `options` object may contain the following:
 
-### unsafe(val)
+* `commentDelimiters` A list of delimiters which can start a comment,
+  defaulting to `[';', '#']`
+
+### unsafe(val, [options])
 
 Unescapes the string `val`
+
+The `options` object may contain the following:
+
+* `commentDelimiters` A list of delimiters which can start a comment,
+  defaulting to `[';', '#']`
