@@ -42,7 +42,7 @@ function encode (obj, opt) {
   }
 
   children.forEach(function (k, _, __) {
-    var nk = dotSplit(k).join('\\.')
+    var nk = splitSections(k, '.').join('\\.')
     var section = (opt.section ? opt.section + '.' : '') + nk
     var child = encode(obj[k], {
       section: section,
@@ -57,13 +57,30 @@ function encode (obj, opt) {
   return out
 }
 
-function dotSplit (str) {
-  return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
-    .replace(/\\\./g, '\u0001')
-    .split(/\./).map(function (part) {
-      return part.replace(/\1/g, '\\.')
-      .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
-    })
+function splitSections (str, separator) {
+  var lastMatchIndex = 0
+  var lastSeparatorIndex = 0
+  var nextIndex = 0
+  var sections = []
+
+  do {
+    nextIndex = str.indexOf(separator, lastMatchIndex)
+
+    if (nextIndex !== -1) {
+      lastMatchIndex = nextIndex + separator.length
+
+      if (nextIndex > 0 && str[nextIndex - 1] === '\\') {
+        continue
+      }
+
+      sections.push(str.slice(lastSeparatorIndex, nextIndex))
+      lastSeparatorIndex = nextIndex + separator.length
+    }
+  } while (nextIndex !== -1)
+
+  sections.push(str.slice(lastSeparatorIndex))
+
+  return sections
 }
 
 function decode (str) {
@@ -120,7 +137,7 @@ function decode (str) {
     }
     // see if the parent section is also an object.
     // if so, add it to that, and mark this one for deletion
-    var parts = dotSplit(k)
+    var parts = splitSections(k, '.')
     var p = out
     var l = parts.pop()
     var nl = l.replace(/\\\./g, '.')
