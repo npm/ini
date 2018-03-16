@@ -14,11 +14,13 @@ function encode (obj, opt) {
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      isArray: true
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.isArray = true
   }
 
   var separator = opt.whitespace ? ' = ' : '='
@@ -26,6 +28,7 @@ function encode (obj, opt) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
+        console.log(opt)
         if (opt.isArray) {
           out += safe(k + '[]') + separator + safe(item) + eol
         } else {
@@ -46,10 +49,8 @@ function encode (obj, opt) {
   children.forEach(function (k, _, __) {
     var nk = dotSplit(k).join('\\.')
     var section = (opt.section ? opt.section + '.' : '') + nk
-    var child = encode(obj[k], {
-      section: section,
-      whitespace: opt.whitespace
-    })
+    opt.section = section
+    var child = encode(obj[k], opt)
     if (out.length && child.length) {
       out += eol
     }
