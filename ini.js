@@ -5,8 +5,7 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
-var eol = typeof process !== 'undefined' &&
-  process.platform === 'win32' ? '\r\n' : '\n'
+var eol = require('os').EOL
 
 function encode (obj, opt) {
   var children = []
@@ -23,12 +22,15 @@ function encode (obj, opt) {
   }
 
   var separator = opt.whitespace ? ' = ' : '='
-
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        if (opt.isArray) {
+          out += safe(k + '[]') + separator + safe(item) + eol
+        } else {
+          out += safe(k) + separator + safe(item) + eol
+        }
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
@@ -62,7 +64,7 @@ function dotSplit (str) {
     .replace(/\\\./g, '\u0001')
     .split(/\./).map(function (part) {
       return part.replace(/\1/g, '\\.')
-      .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
+        .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
     })
 }
 
@@ -73,7 +75,6 @@ function decode (str) {
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
   var lines = str.split(/[\r\n]+/g)
-
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
     var match = line.match(re)
@@ -92,13 +93,15 @@ function decode (str) {
     }
 
     // Convert keys with '[]' suffix to an array
-    if (key.length > 2 && key.slice(-2) === '[]') {
+    if ((key.length > 2 && key.slice(-2) === '[]')) {
       key = key.substring(0, key.length - 2)
       if (!p[key]) {
         p[key] = []
       } else if (!Array.isArray(p[key])) {
         p[key] = [p[key]]
       }
+    } else if (p[key]) {
+      p[key] = [p[key]]
     }
 
     // safeguard against resetting a previously defined
@@ -150,10 +153,10 @@ function safe (val) {
     val.match(/[=\r\n]/) ||
     val.match(/^\[/) ||
     (val.length > 1 &&
-     isQuoted(val)) ||
+      isQuoted(val)) ||
     val !== val.trim())
-      ? JSON.stringify(val)
-      : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+    ? JSON.stringify(val)
+    : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
 }
 
 function unsafe (val, doUnesc) {

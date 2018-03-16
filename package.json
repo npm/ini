@@ -21,7 +21,7 @@
   "dependencies": {},
   "devDependencies": {
     "standard": "^10.0.3",
-    "tap": "^10.7.3 || 11"
+    "tap": "^11.1.2"
   },
   "license": "ISC",
   "files": [
