@@ -51,7 +51,7 @@ var i = require("../")
          j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
          "[]": "a square?",
          cr: ['four', 'eight'],
-         b: { c: { e: '1', j: '2' } } },
+         b: { c: { e: 1, j: 2 } } },
       'x.y.z': {
         'x.y.z': 'xyz',
         'a.b.c': {

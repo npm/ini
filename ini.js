@@ -85,11 +85,9 @@ function decode (str) {
     }
     var key = unsafe(match[2])
     var value = match[3] ? unsafe(match[4]) : true
-    switch (value) {
-      case 'true':
-      case 'false':
-      case 'null': value = JSON.parse(value)
-    }
+    try {
+      value = JSON.parse(value)
+    } catch (e) {}
 
     // Convert keys with '[]' suffix to an array
     if (key.length > 2 && key.slice(-2) === '[]') {
