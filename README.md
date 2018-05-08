@@ -78,6 +78,10 @@ The `options` object may contain the following:
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+* `ìsArray` Boolean to specify how arrays should be handled. By default an array
+  value will be suffixed with `[]`. If isArray is set to false multiple occurances
+  of the same key will be written underneath each other in the file 
+  e.g. the way the _DNS_ setting is handled in [systemd networkd files](https://wiki.archlinux.org/index.php/Systemd-networkd).
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.
