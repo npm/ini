@@ -8,16 +8,16 @@ exports.unsafe = unsafe
 exports.filters = {
   decode: {
     zendBoolean: function (key, value) {
-      if (typeof value !== 'string' || value.length > 4) return value
+      if (typeof value !== 'string' || value.length > 5) return {key: key, value: value}
       switch (value.toLowerCase()) {
         case 'on':
         case 'true':
-        case 'yes': return true
+        case 'yes': return {key: key, value: true}
         case 'off':
         case 'no':
         case 'false':
-        case 'none': return false
-        default: return value
+        case 'none': return {key: key, value: false}
+        default: return {key: key, value: value}
       }
     }
   }
