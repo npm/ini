@@ -1,4 +1,5 @@
 exports.parse = exports.decode = decode
+
 exports.stringify = exports.encode = encode
 
 exports.safe = safe
@@ -22,7 +23,8 @@ exports.filters = {
   }
 }
 
-var eol = process.platform === 'win32' ? '\r\n' : '\n'
+var eol = typeof process !== 'undefined' &&
+  process.platform === 'win32' ? '\r\n' : '\n'
 
 function encode (obj, opt) {
   var children = []
@@ -77,9 +79,9 @@ function dotSplit (str) {
   return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
     .replace(/\\\./g, '\u0001')
     .split(/\./).map(function (part) {
-    return part.replace(/\1/g, '\\.')
+      return part.replace(/\1/g, '\\.')
       .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
-  })
+    })
 }
 
 function decode (str, filters) {
@@ -101,7 +103,7 @@ function decode (str, filters) {
       return
     }
     var key = unsafe(match[2])
-    var value = match[3] ? unsafe((match[4] || '')) : true
+    var value = match[3] ? unsafe(match[4]) : true
     switch (value) {
       case 'true':
       case 'false':
@@ -174,9 +176,9 @@ function safe (val) {
     val.match(/^\[/) ||
     (val.length > 1 &&
      isQuoted(val)) ||
-    val !== val.trim()) ?
-      JSON.stringify(val) :
-      val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+    val !== val.trim())
+      ? JSON.stringify(val)
+      : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
 }
 
 function unsafe (val, doUnesc) {
@@ -211,7 +213,7 @@ function unsafe (val, doUnesc) {
     if (esc) {
       unesc += '\\'
     }
-    return unesc
+    return unesc.trim()
   }
   return val
 }
