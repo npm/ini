@@ -76,9 +76,9 @@ The `filters` object may contain the following:
 
 #### Predefined Filters
 
-* zendBoolean: normalizes [Zend Boolean](http://php.net/manual/en/configuration.file.php) values as true|false
+__zendBoolean__: normalizes [Zend Boolean](http://php.net/manual/en/configuration.file.php) values as true|false
 
-      ini.decode(inistring, ini.filters.decode.zendBoolean)
+    ini.decode(inistring, ini.filters.decode.zendBoolean)
 
 ### parse(inistring, [filters])
 
