@@ -1,11 +1,11 @@
 {
-  "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
-  "name": "ini",
-  "description": "An ini encoder/decoder for node",
-  "version": "1.3.5",
+  "author": "Rijnhard Hessel <r.hessel.git@gmail.com>",
+  "name": "ini2",
+  "description": "An ini encoder/decoder for node based on Isaacs ini but with support for decoding filters",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/isaacs/ini.git"
+    "url": "git://github.com/rijnhard/ini.git"
   },
   "main": "ini.js",
   "scripts": {
