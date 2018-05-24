@@ -10,9 +10,11 @@ exports.filters = {
       if (typeof value !== 'string' || value.length > 4) return value
       switch (value.toLowerCase()) {
         case 'on':
+        case 'true':
         case 'yes': return true
         case 'off':
         case 'no':
+        case 'false':
         case 'none': return false
         default: return value
       }
@@ -117,7 +119,9 @@ function decode (str, filters) {
     }
 
     filters.forEach(function (filter) {
-      value = filter(key, value)
+      var filtered = filter(key, value)
+      value = filtered.value
+      key = filtered.key
     })
 
     // safeguard against resetting a previously defined

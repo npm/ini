@@ -1,7 +1,11 @@
 An ini format parser and serializer for node.
 
-Sections are treated as nested objects.  Items before the first
+Sections are treated as nested objects. Items before the first
 heading are saved on the object directly.
+
+> forked from [ini](https://www.npmjs.com/package/ini) by Isaacs Z. Schlueter
+> with added decoding filter support
+> PR's welcome for more filters
 
 ## Usage
 
@@ -117,3 +121,4 @@ would result in
 ### unsafe(val)
 
 Unescapes the string `val`
+
