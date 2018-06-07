@@ -75,6 +75,7 @@ function decode (str) {
   var lines = str.split(/[\r\n]+/g)
 
   lines.forEach(function (line, _, __) {
+    line = line.trim()
     if (!line || line.match(/^\s*[;#]/)) return
     var match = line.match(re)
     if (!match) return
