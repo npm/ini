@@ -17,6 +17,8 @@ var i = require("../")
             + 'ar[]=one\n'
             + 'ar[]=three\n'
             + 'ar[]=this is included\n'
+            + "ar2[]='this is a string in an array'\n"
+            + "ar2[]='this; is not a comment'\n"
             + 'br=warm\n'
             + 'eq=\"eq=eq\"\n'
             + '\n'
@@ -43,6 +45,7 @@ var i = require("../")
       's2': 'something else',
       'zr': ['deedee'],
       'ar': ['one', 'three', 'this is included'],
+      'ar2': ['this is a string in an array', 'this; is not a comment'],
       'br': 'warm',
       'eq': 'eq=eq',
       a:
