@@ -91,12 +91,12 @@ function decode (str) {
       case 'null': value = JSON.parse(value)
     }
     // convert values that look like ints/floats into ints/floats
-    var intVal = parseInt(value);
-    var floatVal = parseFloat(value);
-    if(!isNaN(intVal) && intVal == value) {
-      value = intVal;
-    } else if(!isNaN(floatVal) && floatVal == value) {
-      value = floatVal;
+    var intVal = parseInt(value)
+    var floatVal = parseFloat(value)
+    if (!isNaN(intVal) && intVal == value) {
+      value = intVal
+    } else if (!isNaN(floatVal) && floatVal == value) {
+      value = floatVal
     }
 
     // Convert keys with '[]' suffix to an array
