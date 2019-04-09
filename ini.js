@@ -125,8 +125,9 @@ function decode (str) {
     var l = parts.pop()
     var nl = l.replace(/\\\./g, '.')
     parts.forEach(function (part, _, __) {
-      if (!p[part] || typeof p[part] !== 'object') p[part] = {}
-      p = p[part]
+      var partname = part.replace(/\\\./g, '.')
+      if (!p[partname] || typeof p[partname] !== 'object') p[partname] = {}
+      p = p[partname]
     })
     if (p === out && nl === l) {
       return false
