@@ -15,11 +15,13 @@ function encode (obj, opt) {
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      unescapedfields: opt.unescapedfields
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.unescapedfields = opt.unescapedfields || []
   }
 
   var separator = opt.whitespace ? ' = ' : '='
@@ -33,7 +35,13 @@ function encode (obj, opt) {
     } else if (val && typeof val === 'object') {
       children.push(k)
     } else {
-      out += safe(k) + separator + safe(val) + eol
+      if(Array.isArray(unescapedFields) && unescapedFields.includes(k)){
+        out += safe(k) + separator + safe(val)
+          .replace(/\\#/g, '#')
+          .replace(/\\\\/g, '\\') + eol
+      } else {
+        out += safe(k) + separator + safe(val) + eol
+      }
     }
   })
 
