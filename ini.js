@@ -25,7 +25,6 @@ function encode (obj, opt) {
   }
 
   var separator = opt.whitespace ? ' = ' : '='
-  var unescapedFields = opt.unescapedfields
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
@@ -35,14 +34,12 @@ function encode (obj, opt) {
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
+    } else if (opt.unescapedfields.includes(k)) {
+      out += safe(k) + separator + safe(val)
+        .replace(/\\#/g, /#/g)
+        .replace(/\\\\/g, /\\/g) + eol
     } else {
-      if (Array.isArray(unescapedFields) && unescapedFields.includes(k)) {
-        out += safe(k) + separator + safe(val)
-          .replace(/\\#/g, '#')
-          .replace(/\\\\/g, '\\') + eol
-      } else {
-        out += safe(k) + separator + safe(val) + eol
-      }
+      out += safe(k) + separator + safe(val) + eol
     }
   })
 
