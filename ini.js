@@ -6,7 +6,7 @@ exports.safe = safe
 exports.unsafe = unsafe
 
 var eol = typeof process !== 'undefined' &&
-  process.platform === 'win32' ? '\r\n' : '\n'
+process.platform === 'win32' ? '\r\n' : '\n'
 
 function encode (obj, opt) {
   var children = []
@@ -25,7 +25,7 @@ function encode (obj, opt) {
   }
 
   var separator = opt.whitespace ? ' = ' : '='
-  var unescapedFields = opt.unescapedfields;
+  var unescapedFields = opt.unescapedfields
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
@@ -36,7 +36,7 @@ function encode (obj, opt) {
     } else if (val && typeof val === 'object') {
       children.push(k)
     } else {
-      if(Array.isArray(unescapedFields) && unescapedFields.includes(k)){
+      if (Array.isArray(unescapedFields) && unescapedFields.includes(k)) {
         out += safe(k) + separator + safe(val)
           .replace(/\\#/g, '#')
           .replace(/\\\\/g, '\\') + eol
@@ -71,7 +71,7 @@ function dotSplit (str) {
     .replace(/\\\./g, '\u0001')
     .split(/\./).map(function (part) {
       return part.replace(/\1/g, '\\.')
-      .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
+        .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
     })
 }
 
@@ -97,7 +97,8 @@ function decode (str) {
     switch (value) {
       case 'true':
       case 'false':
-      case 'null': value = JSON.parse(value)
+      case 'null':
+        value = JSON.parse(value)
     }
 
     // Convert keys with '[]' suffix to an array
@@ -151,7 +152,7 @@ function decode (str) {
 
 function isQuoted (val) {
   return (val.charAt(0) === '"' && val.slice(-1) === '"') ||
-    (val.charAt(0) === "'" && val.slice(-1) === "'")
+    (val.charAt(0) === '\'' && val.slice(-1) === '\'')
 }
 
 function safe (val) {
@@ -159,17 +160,17 @@ function safe (val) {
     val.match(/[=\r\n]/) ||
     val.match(/^\[/) ||
     (val.length > 1 &&
-     isQuoted(val)) ||
+      isQuoted(val)) ||
     val !== val.trim())
-      ? JSON.stringify(val)
-      : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+    ? JSON.stringify(val)
+    : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
 }
 
 function unsafe (val, doUnesc) {
   val = (val || '').trim()
   if (isQuoted(val)) {
     // remove the single quotes before calling JSON.parse
-    if (val.charAt(0) === "'") {
+    if (val.charAt(0) === '\'') {
       val = val.substr(1, val.length - 2)
     }
     try { val = JSON.parse(val) } catch (_) {}
