@@ -5,6 +5,8 @@ exports.stringify = exports.encode = encode
 exports.safe = safe
 exports.unsafe = unsafe
 
+var DEFAULT_DELIMITER = '.'
+
 var eol = typeof process !== 'undefined' &&
   process.platform === 'win32' ? '\r\n' : '\n'
 
@@ -15,11 +17,13 @@ function encode (obj, opt) {
   if (typeof opt === 'string') {
     opt = {
       section: opt,
-      whitespace: false
+      whitespace: false,
+      delimiter: DEFAULT_DELIMITER
     }
   } else {
     opt = opt || {}
     opt.whitespace = opt.whitespace === true
+    opt.delimiter = opt.delimiter || DEFAULT_DELIMITER
   }
 
   var separator = opt.whitespace ? ' = ' : '='
@@ -42,11 +46,12 @@ function encode (obj, opt) {
   }
 
   children.forEach(function (k, _, __) {
-    var nk = dotSplit(k).join('\\.')
-    var section = (opt.section ? opt.section + '.' : '') + nk
+    var nk = dotSplit(k, opt.delimiter).join('\\' + opt.delimiter)
+    var section = (opt.section ? opt.section + opt.delimiter : '') + nk
     var child = encode(obj[k], {
       section: section,
-      whitespace: opt.whitespace
+      whitespace: opt.whitespace,
+      delimiter: opt.delimiter
     })
     if (out.length && child.length) {
       out += eol
@@ -57,22 +62,30 @@ function encode (obj, opt) {
   return out
 }
 
-function dotSplit (str) {
+function dotSplit (str, delimiter) {
+  if (delimiter === false) {
+    return [str]
+  }
+  var escapeRegex = new RegExp('\\\\[' + delimiter[0] + ']', 'g')
+  var splitRegex = new RegExp('[' + delimiter[0] + ']')
   return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
-    .replace(/\\\./g, '\u0001')
-    .split(/\./).map(function (part) {
+    .replace(escapeRegex, '\u0001')
+    .split(splitRegex).map(function (part) {
       return part.replace(/\1/g, '\\.')
       .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
     })
 }
 
-function decode (str) {
+function decode (str, opt) {
   var out = {}
   var p = out
   var section = null
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
   var lines = str.split(/[\r\n]+/g)
+
+  opt = opt || {}
+  opt.delimiter = typeof opt.delimiter === 'undefined' ? DEFAULT_DELIMITER : opt.delimiter
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -120,7 +133,7 @@ function decode (str) {
     }
     // see if the parent section is also an object.
     // if so, add it to that, and mark this one for deletion
-    var parts = dotSplit(k)
+    var parts = dotSplit(k, opt.delimiter)
     var p = out
     var l = parts.pop()
     var nl = l.replace(/\\\./g, '.')

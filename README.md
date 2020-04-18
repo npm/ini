@@ -55,11 +55,16 @@ to the filesystem with the following content:
 
 ## API
 
-### decode(inistring)
+### decode(inistring, [options])
 
 Decode the ini-style formatted `inistring` into a nested object.
 
-### parse(inistring)
+The `options` object may contain the following:
+
+* `delimiter` Character used when splitting sections into nested objects.
+  Can be set to `false` to disable splitting. Defaults to `"."`.
+
+### parse(inistring, [options])
 
 Alias for `decode(inistring)`
 
@@ -78,6 +83,8 @@ The `options` object may contain the following:
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+* `delimiter` Character used when joining nested objects into sections.
+  Defaults to `"."`.
 
 For backwards compatibility reasons, if a `string` options is passed
 in, then it is assumed to be the `section` value.
