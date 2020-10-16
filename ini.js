@@ -72,7 +72,7 @@ function decode (str) {
   var section = null
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
-  var lines = str.split(/[\r\n]+/g)
+  var lines = str.toString().split(/[\r\n]+/g)
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -85,6 +85,7 @@ function decode (str) {
     }
     var key = unsafe(match[2])
     var value = match[3] ? unsafe(match[4]) : true
+    if(!isNaN(value)) value = parseFloat(value);
     switch (value) {
       case 'true':
       case 'false':
