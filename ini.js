@@ -23,12 +23,13 @@ function encode (obj, opt) {
   }
 
   var separator = opt.whitespace ? ' = ' : '='
+  var arraySuffix = opt.withoutArraySuffix ? '' : '[]'
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        out += safe(k + arraySuffix) + separator + safe(item) + '\n'
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
@@ -73,6 +74,8 @@ function decode (str) {
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
   var lines = str.split(/[\r\n]+/g)
+  // for duplicate property statist
+  var bucket = {}
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -85,6 +88,12 @@ function decode (str) {
     }
     var key = unsafe(match[2])
     var value = match[3] ? unsafe(match[4]) : true
+
+    var _keyWithoutArraySuffix = key.split('[]')[0]
+    bucket[_keyWithoutArraySuffix] = bucket[_keyWithoutArraySuffix] ? ++bucket[_keyWithoutArraySuffix] : 1
+
+    if (bucket[_keyWithoutArraySuffix] > 1) key = _keyWithoutArraySuffix + '[]'
+
     switch (value) {
       case 'true':
       case 'false':
