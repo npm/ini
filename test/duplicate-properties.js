@@ -1,63 +1,59 @@
 /*
  * @Author: John Trump
- * @Date: 2020-11-28 00:27:19
+ * @Date: 2020-11-28 15:26:01
  * @LastEditors: John Trump
- * @LastEditTime: 2020-11-28 01:20:46
+ * @LastEditTime: 2020-11-28 15:52:26
  */
 var ini = require("../ini");
-var result = ini.decode(`
-zr[] = deedee
-zr=123
-ar[] = one
-ar[] = three
-str = 3;
-brr = 1;
-brr = 2;
-brr = 3;
-brr = 3;
-`);
+var tap = require("tap");
+var test = tap.test;
 
-console.log('result: ', result);
-/*
-{
-  zr: [ 'deedee', '123' ],
-  ar: [ 'one', 'three' ],
-  arr: '3',
-  brr: [ '1', '2', '3', '3' ]
-}
- */
+test("decode with duplicate properties", function(t) {
+  var d = ini.decode(`
+  zr[] = deedee;
+  zr=123;
+  ar[] = one
+  ar[] = three;
+  str = 3;
+  brr = 1;
+  brr = 2;
+  brr = 3;
+  brr = 3;`);
+  t.deepEqual(d, {
+    zr: ["deedee", "123"],
+    ar: ["one", "three"],
+    str: "3",
+    brr: ["1", "2", "3", "3"],
+  });
+  t.end();
+});
 
-var obj = {
-  zr: ["deedee", "123"],
-  ar: ["one", "three"],
-  str: "3",
-  brr: ["1", "2", "3", "3"],
-};
+test("encode with duplicate properties", function(t) {
+  var d = ini.encode({
+    ar: ["1", "2", "3"],
+    br: ["1", "2"],
+  });
+  var excepted = 'ar[]=1\n'
+               + 'ar[]=2\n'
+               + 'ar[]=3\n'
+               + 'br[]=1\n'
+               + 'br[]=2\n'
+  t.deepEqual(d, excepted)
+  t.end();
+});
 
-var str = ini.encode(obj);
-console.log('str: ', str);
-/*
-zr[]=deedee
-zr[]=123
-ar[]=one
-ar[]=three
-arr=3
-brr[]=1
-brr[]=2
-brr[]=3
-brr[]=3
- */
-
-var strWithoutSuffix = ini.encode(obj, {withoutArraySuffix: true});
-/*
-strWithoutSuffix
-zr=deedee
-zr=123
-ar=one
-ar=three
-str=3
-brr=1
-brr=2
-brr=3
-brr=3 */
-console.log('strWithoutSuffix', strWithoutSuffix);
+test("encode with option with duplicate properties", function(t) {
+  var d = ini.encode({
+    ar: ["1", "2", "3"],
+    br: ["1", "2"],
+  }, {
+    withoutArraySuffix: true
+  });
+  var excepted = 'ar=1\n'
+               + 'ar=2\n'
+               + 'ar=3\n'
+               + 'br=1\n'
+               + 'br=2\n'
+  t.deepEqual(d, excepted)
+  t.end();
+});
