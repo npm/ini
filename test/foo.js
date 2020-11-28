@@ -17,7 +17,8 @@ var i = require("../")
             + 'ar[]=one\n'
             + 'ar[]=three\n'
             + 'ar[]=this is included\n'
-            + 'br=warm\n'
+            + 'br[]=cold\n'
+            + 'br[]=warm\n'
             + 'eq=\"eq=eq\"\n'
             + '\n'
             + '[a]\n'
@@ -43,7 +44,7 @@ var i = require("../")
       's2': 'something else',
       'zr': ['deedee'],
       'ar': ['one', 'three', 'this is included'],
-      'br': 'warm',
+      'br': ['cold', 'warm'],
       'eq': 'eq=eq',
       a:
        { av: 'a val',

@@ -75,7 +75,10 @@ function decode (str) {
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
   var lines = str.split(/[\r\n]+/g)
   // for duplicate property statist
-  var bucket = {}
+  var bucket = {
+    'root': {}
+  }
+  var curSection = 'root';
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -84,15 +87,18 @@ function decode (str) {
     if (match[1] !== undefined) {
       section = unsafe(match[1])
       p = out[section] = out[section] || {}
+      bucket[section] = bucket[section] || {}
+      curSection = section;
       return
     }
     var key = unsafe(match[2])
     var value = match[3] ? unsafe(match[4]) : true
 
     var _keyWithoutArraySuffix = key.split('[]')[0]
-    bucket[_keyWithoutArraySuffix] = bucket[_keyWithoutArraySuffix] ? ++bucket[_keyWithoutArraySuffix] : 1
+    var curBucket =  bucket[curSection];
+    curBucket[_keyWithoutArraySuffix] = curBucket[_keyWithoutArraySuffix] ? ++curBucket[_keyWithoutArraySuffix] : 1
 
-    if (bucket[_keyWithoutArraySuffix] > 1) key = _keyWithoutArraySuffix + '[]'
+    if (curBucket[_keyWithoutArraySuffix] > 1) key = _keyWithoutArraySuffix + '[]'
 
     switch (value) {
       case 'true':
