@@ -23,12 +23,13 @@ function encode (obj, opt) {
   }
 
   var separator = opt.whitespace ? ' = ' : '='
+  var arraySuffix = opt.withoutArraySuffix ? '' : '[]'
 
   Object.keys(obj).forEach(function (k, _, __) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        out += safe(k + arraySuffix) + separator + safe(item) + '\n'
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
@@ -73,6 +74,11 @@ function decode (str) {
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
   var lines = str.split(/[\r\n]+/g)
+  // for duplicate property statist
+  var bucket = {
+    'root': {}
+  }
+  var curSection = 'root'
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -81,10 +87,19 @@ function decode (str) {
     if (match[1] !== undefined) {
       section = unsafe(match[1])
       p = out[section] = out[section] || {}
+      bucket[section] = bucket[section] || {}
+      curSection = section
       return
     }
     var key = unsafe(match[2])
     var value = match[3] ? unsafe(match[4]) : true
+
+    var _keyWithoutArraySuffix = key.split('[]')[0]
+    var curBucket = bucket[curSection]
+    curBucket[_keyWithoutArraySuffix] = curBucket[_keyWithoutArraySuffix] ? ++curBucket[_keyWithoutArraySuffix] : 1
+
+    if (curBucket[_keyWithoutArraySuffix] > 1) key = _keyWithoutArraySuffix + '[]'
+
     switch (value) {
       case 'true':
       case 'false':

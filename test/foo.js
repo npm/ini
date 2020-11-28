@@ -17,7 +17,8 @@ var i = require("../")
             + 'ar[]=one\n'
             + 'ar[]=three\n'
             + 'ar[]=this is included\n'
-            + 'br=warm\n'
+            + 'br[]=cold\n'
+            + 'br[]=warm\n'
             + 'eq=\"eq=eq\"\n'
             + '\n'
             + '[a]\n'
@@ -33,6 +34,13 @@ var i = require("../")
             + '[x\\.y\\.z.a\\.b\\.c]\na.b.c=abc\n'
             + 'nocomment=this\\; this is not a comment\n'
             + 'noHashComment=this\\# this is not a comment\n'
+            + '\n'
+            + '[duplicate]\n'
+            + 'ar[]=1\n'
+            + 'ar[]=2\n'
+            + 'ar[]=3\n'
+            + 'br[]=1\n'
+            + 'br[]=2\n'
   , expectD =
     { o: 'p',
       'a with spaces': 'b  c',
@@ -43,7 +51,7 @@ var i = require("../")
       's2': 'something else',
       'zr': ['deedee'],
       'ar': ['one', 'three', 'this is included'],
-      'br': 'warm',
+      'br': ['cold', 'warm'],
       'eq': 'eq=eq',
       a:
        { av: 'a val',
@@ -59,6 +67,10 @@ var i = require("../")
           'nocomment': 'this\; this is not a comment',
           noHashComment: 'this\# this is not a comment'
         }
+      },
+      duplicate: {
+        ar: ["1", "2", "3"],
+        br: ["1", "2"]
       }
     }
   , expectF = '[prefix.log]\n'
