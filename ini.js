@@ -78,7 +78,7 @@ function decode (str) {
   var bucket = {
     'root': {}
   }
-  var curSection = 'root';
+  var curSection = 'root'
 
   lines.forEach(function (line, _, __) {
     if (!line || line.match(/^\s*[;#]/)) return
@@ -88,14 +88,14 @@ function decode (str) {
       section = unsafe(match[1])
       p = out[section] = out[section] || {}
       bucket[section] = bucket[section] || {}
-      curSection = section;
+      curSection = section
       return
     }
     var key = unsafe(match[2])
     var value = match[3] ? unsafe(match[4]) : true
 
     var _keyWithoutArraySuffix = key.split('[]')[0]
-    var curBucket =  bucket[curSection];
+    var curBucket = bucket[curSection]
     curBucket[_keyWithoutArraySuffix] = curBucket[_keyWithoutArraySuffix] ? ++curBucket[_keyWithoutArraySuffix] : 1
 
     if (curBucket[_keyWithoutArraySuffix] > 1) key = _keyWithoutArraySuffix + '[]'
