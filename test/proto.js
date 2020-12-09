@@ -23,33 +23,33 @@ foo = asdfasdf
 
 var res = ini.parse(data)
 
-t.deepEqual(res, {
+t.deepEqual(res, Object.assign(Object.create(null), {
   'constructor.prototype.foo': 'asdfasdf',
   foo: 'baz',
-  other: {
+  other: Object.assign(Object.create(null), {
     foo: 'asdf',
-  },
-  kid: {
-    foo: {
+  }),
+  kid: Object.assign(Object.create(null), {
+    foo: Object.assign(Object.create(null), {
       foo: 'kid',
-    },
-  },
-  arrproto: {
+    }),
+  }),
+  arrproto: Object.assign(Object.create(null), {
     hello: 'snyk',
     thanks: true,
-  },
-  ctor: {
-    constructor: {
-      prototype: {
+  }),
+  ctor: Object.assign(Object.create(null), {
+    constructor: Object.assign(Object.create(null), {
+      prototype: Object.assign(Object.create(null), {
         foo: 'asdfasdf',
-      },
-    },
-  },
-})
-t.equal(res.__proto__, Object.prototype)
-t.equal(res.kid.__proto__, Object.prototype)
-t.equal(res.kid.foo.__proto__, Object.prototype)
-t.equal(res.arrproto.__proto__, Object.prototype)
+      }),
+    }),
+  }),
+}))
+t.equal(res.__proto__, undefined)
+t.equal(res.kid.__proto__, undefined)
+t.equal(res.kid.foo.__proto__, undefined)
+t.equal(res.arrproto.__proto__, undefined)
 t.equal(Object.prototype.foo, undefined)
 t.equal(Object.prototype[0], undefined)
 t.equal(Object.prototype['0'], undefined)
