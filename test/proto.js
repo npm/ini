@@ -1,3 +1,4 @@
+/* eslint no-proto: "off" */
 var ini = require('../')
 var t = require('tap')
 
