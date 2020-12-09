@@ -18,7 +18,7 @@ function encode (obj, opt) {
       whitespace: false
     }
   } else {
-    opt = opt || {}
+    opt = opt || Object.create(null)
     opt.whitespace = opt.whitespace === true
   }
 
@@ -67,7 +67,7 @@ function dotSplit (str) {
 }
 
 function decode (str) {
-  var out = {}
+  var out = Object.create(null)
   var p = out
   var section = null
   //          section     |key      = value
@@ -83,13 +83,14 @@ function decode (str) {
       if (section === '__proto__') {
         // not allowed
         // keep parsing the section, but don't attach it.
-        p = {}
+        p = Object.create(null)
         return
       }
-      p = out[section] = out[section] || {}
+      p = out[section] = out[section] || Object.create(null)
       return
     }
     var key = unsafe(match[2])
+    if (key === '__proto__') return
     var value = match[3] ? unsafe(match[4]) : true
     switch (value) {
       case 'true':
@@ -133,7 +134,7 @@ function decode (str) {
     var nl = l.replace(/\\\./g, '.')
     parts.forEach(function (part, _, __) {
       if (part === '__proto__') return
-      if (!p[part] || typeof p[part] !== 'object') p[part] = {}
+      if (!p[part] || typeof p[part] !== 'object') p[part] = Object.create(null)
       p = p[part]
     })
     if (p === out && nl === l) {
