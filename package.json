@@ -29,5 +29,8 @@
   "license": "ISC",
   "files": [
     "ini.js"
-  ]
+  ],
+  "engines": {
+    "node": ">=10"
+  }
 }
