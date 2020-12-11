@@ -22,9 +22,8 @@ const encode = (obj, opt) => {
   for (const k of Object.keys(obj)) {
     const val = obj[k]
     if (val && Array.isArray(val)) {
-      val.forEach(item => {
+      for (const item of val)
         out += safe(k + '[]') + separator + safe(item) + '\n'
-      })
     } else if (val && typeof val === 'object')
       children.push(k)
     else
@@ -51,16 +50,15 @@ const encode = (obj, opt) => {
   return out
 }
 
-const dotSplit = (str) => {
-  return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
+const dotSplit = str =>
+  str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
     .replace(/\\\./g, '\u0001')
-    .split(/\./).map(part => {
-      return part.replace(/\1/g, '\\.')
-        .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
-    })
-}
+    .split(/\./)
+    .map(part =>
+      part.replace(/\1/g, '\\.')
+        .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001'))
 
-const decode = (str) => {
+const decode = str => {
   const out = Object.create(null)
   let p = out
   let section = null
@@ -146,13 +144,12 @@ const decode = (str) => {
   return out
 }
 
-const isQuoted = (val) => {
-  return (val.charAt(0) === '"' && val.slice(-1) === '"') ||
+const isQuoted = val =>
+  (val.charAt(0) === '"' && val.slice(-1) === '"') ||
     (val.charAt(0) === "'" && val.slice(-1) === "'")
-}
 
-const safe = (val) => {
-  return (typeof val !== 'string' ||
+const safe = val =>
+  (typeof val !== 'string' ||
     val.match(/[=\r\n]/) ||
     val.match(/^\[/) ||
     (val.length > 1 &&
@@ -160,7 +157,6 @@ const safe = (val) => {
     val !== val.trim())
     ? JSON.stringify(val)
     : val.replace(/;/g, '\\;').replace(/#/g, '\\#')
-}
 
 const unsafe = (val, doUnesc) => {
   val = (val || '').trim()
