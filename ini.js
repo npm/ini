@@ -19,7 +19,7 @@ const encode = (obj, opt) => {
 
   const separator = opt.whitespace ? ' = ' : '='
 
-  Object.keys(obj).forEach(k => {
+  for (const k of Object.keys(obj)) {
     const val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(item => {
@@ -29,12 +29,12 @@ const encode = (obj, opt) => {
       children.push(k)
     else
       out += safe(k) + separator + safe(val) + eol
-  })
+  }
 
   if (opt.section && out.length)
     out = '[' + safe(opt.section) + ']' + eol + out
 
-  children.forEach(k => {
+  for (const k of children) {
     const nk = dotSplit(k).join('\\.')
     const section = (opt.section ? opt.section + '.' : '') + nk
     const { whitespace } = opt
@@ -46,7 +46,7 @@ const encode = (obj, opt) => {
       out += eol
 
     out += child
-  })
+  }
 
   return out
 }
@@ -68,28 +68,28 @@ const decode = (str) => {
   const re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
   const lines = str.split(/[\r\n]+/g)
 
-  lines.forEach(line => {
+  for (const line of lines) {
     if (!line || line.match(/^\s*[;#]/))
-      return
+      continue
     const match = line.match(re)
     if (!match)
-      return
+      continue
     if (match[1] !== undefined) {
       section = unsafe(match[1])
       if (section === '__proto__') {
         // not allowed
         // keep parsing the section, but don't attach it.
         p = Object.create(null)
-        return
+        continue
       }
       p = out[section] = out[section] || Object.create(null)
-      return
+      continue
     }
     const keyRaw = unsafe(match[2])
     const isArray = keyRaw.length > 2 && keyRaw.slice(-2) === '[]'
     const key = isArray ? keyRaw.slice(0, -2) : keyRaw
     if (key === '__proto__')
-      return
+      continue
     const valueRaw = match[3] ? unsafe(match[4]) : true
     const value = valueRaw === 'true' ||
       valueRaw === 'false' ||
@@ -110,15 +110,16 @@ const decode = (str) => {
       p[key].push(value)
     else
       p[key] = value
-  })
+  }
 
   // {a:{y:1},"a.b":{x:2}} --> {a:{y:1,b:{x:2}}}
   // use a filter to return the keys that have to be deleted.
-  Object.keys(out).filter(k => {
+  const remove = []
+  for (const k of Object.keys(out)) {
     if (!hasOwnProperty.call(out, k) ||
-      typeof out[k] !== 'object' ||
-      Array.isArray(out[k]))
-      return false
+        typeof out[k] !== 'object' ||
+        Array.isArray(out[k]))
+      continue
 
     // see if the parent section is also an object.
     // if so, add it to that, and mark this one for deletion
@@ -126,21 +127,21 @@ const decode = (str) => {
     let p = out
     const l = parts.pop()
     const nl = l.replace(/\\\./g, '.')
-    parts.forEach(part => {
+    for (const part of parts) {
       if (part === '__proto__')
-        return
+        continue
       if (!hasOwnProperty.call(p, part) || typeof p[part] !== 'object')
         p[part] = Object.create(null)
       p = p[part]
-    })
+    }
     if (p === out && nl === l)
-      return false
+      continue
 
     p[nl] = out[k]
-    return true
-  }).forEach(del => {
+    remove.push(k)
+  }
+  for (const del of remove)
     delete out[del]
-  })
 
   return out
 }
