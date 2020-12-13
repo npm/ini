@@ -60,16 +60,16 @@ var expectD =
         },
       },
     }
-var expectF = '[prefix.log]\n'
-            + 'type=file\n\n'
-            + '[prefix.log.level]\n'
-            + 'label=debug\n'
-            + 'value=10\n'
-var expectG = '[log]\n'
-            + 'type = file\n\n'
-            + '[log.level]\n'
-            + 'label = debug\n'
-            + 'value = 10\n'
+var expectF = '[prefix.log]\r\n'
+            + 'type=file\r\n\r\n'
+            + '[prefix.log.level]\r\n'
+            + 'label=debug\r\n'
+            + 'value=10\r\n'
+var expectG = '[log]\r\n'
+            + 'type = file\r\n\r\n'
+            + '[log.level]\r\n'
+            + 'label = debug\r\n'
+            + 'value = 10\r\n'
 
 test('decode from file', function (t) {
   var d = i.decode(data)
@@ -79,6 +79,7 @@ test('decode from file', function (t) {
 
 test('encode from data', function (t) {
   var e = i.encode(expectD)
+  e = e.replace(/(\r)/gm, '')
   t.deepEqual(e, expectE)
 
   var obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
@@ -100,7 +101,6 @@ test('encode with option', function (t) {
 test('encode with whitespace', function (t) {
   var obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
   var e = i.encode(obj, {whitespace: true})
-
   t.equal(e, expectG)
   t.end()
 })
