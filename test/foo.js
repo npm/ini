@@ -3,6 +3,7 @@ var tap = require('tap')
 var test = tap.test
 var fs = require('fs')
 var path = require('path')
+const os = require('os')
 var fixture = path.resolve(__dirname, './fixtures/foo.ini')
 var data = fs.readFileSync(fixture, 'utf8')
 var expectE = 'o=p\n'
@@ -60,16 +61,16 @@ var expectD =
         },
       },
     }
-var expectF = '[prefix.log]\r\n'
-            + 'type=file\r\n\r\n'
-            + '[prefix.log.level]\r\n'
-            + 'label=debug\r\n'
-            + 'value=10\r\n'
-var expectG = '[log]\r\n'
-            + 'type = file\r\n\r\n'
-            + '[log.level]\r\n'
-            + 'label = debug\r\n'
-            + 'value = 10\r\n'
+var expectF = '[prefix.log]\n'
+            + 'type=file\n\n'
+            + '[prefix.log.level]\n'
+            + 'label=debug\n'
+            + 'value=10\n'
+var expectG = '[log]\n'
+            + 'type = file\n\n'
+            + '[log.level]\n'
+            + 'label = debug\n'
+            + 'value = 10\n'
 
 test('decode from file', function (t) {
   var d = i.decode(data)
@@ -93,7 +94,8 @@ test('encode from data', function (t) {
 test('encode with option', function (t) {
   var obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
   var e = i.encode(obj, {section: 'prefix'})
-
+  if (os.platform() === 'win32')
+    expectF = expectF.replace(/(\n)/gm, '\r\n')
   t.equal(e, expectF)
   t.end()
 })
@@ -101,6 +103,8 @@ test('encode with option', function (t) {
 test('encode with whitespace', function (t) {
   var obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
   var e = i.encode(obj, {whitespace: true})
+  if (os.platform() === 'win32')
+    expectG = expectG.replace(/(\n)/gm, '\r\n')
   t.equal(e, expectG)
   t.end()
 })
