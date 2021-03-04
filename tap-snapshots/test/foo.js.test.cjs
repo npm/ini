@@ -35,6 +35,7 @@ Null Object {
     "three",
     "this is included",
   ],
+  "b": Null Object {},
   "br": "warm",
   "eq": "eq=eq",
   "false": false,
