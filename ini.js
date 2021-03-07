@@ -107,7 +107,7 @@ const decode = str => {
     if (Array.isArray(p[key]))
       p[key].push(value)
     else
-      p[key] = value
+      p[key] = (p[key]) ? `${p[key]},${value}` : value
   }
 
   // {a:{y:1},"a.b":{x:2}} --> {a:{y:1,b:{x:2}}}
