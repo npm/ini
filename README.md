@@ -6,7 +6,7 @@ heading are saved on the object directly.
 ## Usage
 
 Consider an ini-file `config.ini` that looks like this:
-
+```ini
     ; this comment is being ignored
     scope = global
 
@@ -20,9 +20,11 @@ Consider an ini-file `config.ini` that looks like this:
     array[] = first value
     array[] = second value
     array[] = third value
+```
 
 You can read, manipulate and write the ini-file like so:
 
+```js
     var fs = require('fs')
       , ini = require('ini')
 
@@ -35,10 +37,12 @@ You can read, manipulate and write the ini-file like so:
     config.paths.default.array.push('fourth value')
 
     fs.writeFileSync('./config_modified.ini', ini.stringify(config, { section: 'section' }))
+```
 
 This will result in a file called `config_modified.ini` being written
 to the filesystem with the following content:
 
+```ini
     [section]
     scope=local
     [section.database]
@@ -51,7 +55,7 @@ to the filesystem with the following content:
     array[]=second value
     array[]=third value
     array[]=fourth value
-
+```
 
 ## API
 
@@ -91,7 +95,9 @@ Alias for `encode(object, [options])`
 Escapes the string `val` such that it is safe to be used as a key or
 value in an ini-file. Basically escapes quotes. For example
 
+```js
     ini.safe('"unsafe string"')
+```
 
 would result in
 
