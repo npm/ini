@@ -5,7 +5,7 @@
   "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/isaacs/ini.git"
+    "url": "git://github.com/npm/ini.git"
   },
   "main": "lib/ini.js",
   "scripts": {
