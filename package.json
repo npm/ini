@@ -7,12 +7,13 @@
     "type": "git",
     "url": "git://github.com/isaacs/ini.git"
   },
-  "main": "ini.js",
+  "main": "lib/ini.js",
   "scripts": {
     "eslint": "eslint",
-    "lint": "npm run eslint -- ini.js test/*.js",
+    "lint": "npm run eslint -- lib test",
     "lintfix": "npm run lint -- --fix",
     "test": "tap",
+    "snap": "tap",
     "posttest": "npm run lint",
     "preversion": "npm test",
     "postversion": "npm publish",
@@ -24,7 +25,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "tap": "14"
+    "tap": "^15.0.10"
   },
   "license": "ISC",
   "files": [

@@ -23,7 +23,7 @@ foo = asdfasdf
 
 var res = ini.parse(data)
 
-t.deepEqual(res, Object.assign(Object.create(null), {
+t.same(res, Object.assign(Object.create(null), {
   'constructor.prototype.foo': 'asdfasdf',
   foo: 'baz',
   other: Object.assign(Object.create(null), {

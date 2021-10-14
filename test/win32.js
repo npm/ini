@@ -1,6 +1,6 @@
 var t = require('tap')
 Object.defineProperty(process, 'platform', { value: 'win32' })
-const ini = require('../ini.js')
+const ini = require('..')
 
 const res = ini.encode({foo: { bar: 'baz' }})
 t.equal(res, '[foo]\r\nbar=baz\r\n')
