@@ -12,17 +12,22 @@ const test = tap.test
 const eol = typeof process !== 'undefined' &&
   process.platform === 'win32' ? '\r\n' : '\n'
 
+const makeIni = (arr) => {
+  return arr.join(eol) + eol
+}
+
 test('decode with duplicate properties', function (t) {
-  var d = ini.decode(`
-  zr[] = deedee;
-  zr=123;
-  ar[] = one
-  ar[] = three;
-  str = 3;
-  brr = 1;
-  brr = 2;
-  brr = 3;
-  brr = 3;`)
+  const d = ini.decode(makeIni([
+    'zr[] = deedee;',
+    'zr=123;',
+    'ar[] = one',
+    'ar[] = three;',
+    'str = 3;',
+    'brr = 1;',
+    'brr = 2;',
+    'brr = 3;',
+    'brr = 3;',
+  ]))
   t.same(d, {
     zr: ['deedee', '123'],
     ar: ['one', 'three'],
@@ -37,20 +42,19 @@ test('encode with duplicate properties', function (t) {
     ar: ['1', '2', '3'],
     br: ['1', '2'],
   })
-  const excepted = [
+  const excepted = makeIni([
     'ar[]=1',
     'ar[]=2',
     'ar[]=3',
     'br[]=1',
     'br[]=2',
-    '',
-  ].join(eol)
+  ])
   t.same(d, excepted)
   t.end()
 })
 
 test("decode duplicate properties with 'withoutArraySuffix'", function (t) {
-  var d = ini.decode([
+  const d = ini.decode(makeIni([
     'zr[] = deedee;',
     'zr=123;',
     'ar[] = one',
@@ -60,7 +64,7 @@ test("decode duplicate properties with 'withoutArraySuffix'", function (t) {
     'brr = 2;',
     'brr = 3;',
     'brr = 3;',
-  ].join(eol), { withoutArraySuffix: true })
+  ]), { withoutArraySuffix: true })
   t.same(d, {
     zr: ['deedee', '123'],
     ar: ['one', 'three'],
@@ -71,15 +75,17 @@ test("decode duplicate properties with 'withoutArraySuffix'", function (t) {
 })
 
 test("encode duplicate properties with 'withoutArraySuffix'", function (t) {
-  var d = ini.encode({
+  const d = ini.encode({
     ar: ['1', '2', '3'],
     br: ['1', '2'],
   }, { withoutArraySuffix: true })
-  var excepted = 'ar=1\n'
-    + 'ar=2\n'
-    + 'ar=3\n'
-    + 'br=1\n'
-    + 'br=2\n'
+  const excepted = makeIni([
+    'ar=1',
+    'ar=2',
+    'ar=3',
+    'br=1',
+    'br=2',
+  ])
   t.same(d, excepted)
   t.end()
 })
