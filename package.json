@@ -12,7 +12,7 @@
     "eslint": "eslint",
     "lint": "npm run eslint -- lib test",
     "lintfix": "npm run lint -- --fix",
-    "test": "tap",
+    "test": "export NODE_OPTIONS=--openssl-legacy-provider && tap",
     "snap": "tap",
     "posttest": "npm run lint",
     "preversion": "npm test",
