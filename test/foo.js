@@ -1,119 +1,46 @@
-var i = require("../")
-  , tap = require("tap")
-  , test = tap.test
-  , fs = require("fs")
-  , path = require("path")
-  , fixture = path.resolve(__dirname, "./fixtures/foo.ini")
-  , data = fs.readFileSync(fixture, "utf8")
-  , d
-  , expectE = 'o=p\n'
-            + 'a with spaces=b  c\n'
-            + '" xa  n          p "="\\"\\r\\nyoyoyo\\r\\r\\n"\n'
-            + '"[disturbing]"=hey you never know\n'
-            + 's=something\n'
-            + 's1=\"something\'\n'
-            + 's2=something else\n'
-            + 'zr[]=deedee\n'
-            + 'ar[]=one\n'
-            + 'ar[]=three\n'
-            + 'ar[]=this is included\n'
-            + 'br[]=cold\n'
-            + 'br[]=warm\n'
-            + 'eq=\"eq=eq\"\n'
-            + '\n'
-            + '[a]\n'
-            + 'av=a val\n'
-            + 'e={ o: p, a: '
-            + '{ av: a val, b: { c: { e: "this [value]" '
-            + '} } } }\nj="\\"{ o: \\"p\\", a: { av:'
-            + ' \\"a val\\", b: { c: { e: \\"this [value]'
-            + '\\" } } } }\\""\n"[]"=a square?\n'
-            + 'cr[]=four\ncr[]=eight\n\n'
-            +'[a.b.c]\ne=1\n'
-            + 'j=2\n\n[x\\.y\\.z]\nx.y.z=xyz\n\n'
-            + '[x\\.y\\.z.a\\.b\\.c]\na.b.c=abc\n'
-            + 'nocomment=this\\; this is not a comment\n'
-            + 'noHashComment=this\\# this is not a comment\n'
-            + '\n'
-            + '[duplicate]\n'
-            + 'ar[]=1\n'
-            + 'ar[]=2\n'
-            + 'ar[]=3\n'
-            + 'br[]=1\n'
-            + 'br[]=2\n'
-  , expectD =
-    { o: 'p',
-      'a with spaces': 'b  c',
-      " xa  n          p ":'"\r\nyoyoyo\r\r\n',
-      '[disturbing]': 'hey you never know',
-      's': 'something',
-      's1' : '\"something\'',
-      's2': 'something else',
-      'zr': ['deedee'],
-      'ar': ['one', 'three', 'this is included'],
-      'br': ['cold', 'warm'],
-      'eq': 'eq=eq',
-      a:
-       { av: 'a val',
-         e: '{ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }',
-         j: '"{ o: "p", a: { av: "a val", b: { c: { e: "this [value]" } } } }"',
-         "[]": "a square?",
-         cr: ['four', 'eight'],
-         b: { c: { e: '1', j: '2' } } },
-      'x.y.z': {
-        'x.y.z': 'xyz',
-        'a.b.c': {
-          'a.b.c': 'abc',
-          'nocomment': 'this\; this is not a comment',
-          noHashComment: 'this\# this is not a comment'
-        }
-      },
-      duplicate: {
-        ar: ["1", "2", "3"],
-        br: ["1", "2"]
-      }
-    }
-  , expectF = '[prefix.log]\n'
-            + 'type=file\n\n'
-            + '[prefix.log.level]\n'
-            + 'label=debug\n'
-            + 'value=10\n'
-  , expectG = '[log]\n'
-            + 'type = file\n\n'
-            + '[log.level]\n'
-            + 'label = debug\n'
-            + 'value = 10\n'
+const i = require('../')
+const tap = require('tap')
+const test = tap.test
+const fs = require('fs')
+const path = require('path')
+const fixture = path.resolve(__dirname, './fixtures/foo.ini')
+const data = fs.readFileSync(fixture, 'utf8')
 
-test("decode from file", function (t) {
-  var d = i.decode(data)
-  t.deepEqual(d, expectD)
+tap.cleanSnapshot = s => s.replace(/\r\n/g, '\n')
+
+test('decode from file', function(t) {
+  const d = i.decode(data)
+  t.matchSnapshot(d)
   t.end()
 })
 
-test("encode from data", function (t) {
-  var e = i.encode(expectD)
-  t.deepEqual(e, expectE)
-
-  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
-  e = i.encode(obj)
-  t.notEqual(e.slice(0, 1), '\n', 'Never a blank first line')
-  t.notEqual(e.slice(-2), '\n\n', 'Never a blank final line')
-
+test('encode from data', function(t) {
+  const d = i.decode(data)
+  const e = i.encode(d)
+  t.matchSnapshot(e)
   t.end()
 })
 
-test("encode with option", function (t) {
-  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
-  e = i.encode(obj, {section: 'prefix'})
-
-  t.equal(e, expectF)
+test('never a blank first or last line', function(t) {
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj)
+  t.not(e.slice(0, 1), '\n', 'Never a blank first line')
+  t.not(e.slice(-2), '\n\n', 'Never a blank final line')
   t.end()
 })
 
-test("encode with whitespace", function (t) {
-  var obj = {log: { type:'file', level: {label:'debug', value:10} } }
-  e = i.encode(obj, {whitespace: true})
+test('encode with option', function(t) {
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj, { section: 'prefix' })
 
-  t.equal(e, expectG)
+  t.matchSnapshot(e)
+  t.end()
+})
+
+test('encode with whitespace', function(t) {
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj, { whitespace: true })
+
+  t.matchSnapshot(e)
   t.end()
 })
