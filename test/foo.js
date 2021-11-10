@@ -8,20 +8,20 @@ const data = fs.readFileSync(fixture, 'utf8')
 
 tap.cleanSnapshot = s => s.replace(/\r\n/g, '\n')
 
-test('decode from file', function(t) {
+test('decode from file', function (t) {
   const d = i.decode(data)
   t.matchSnapshot(d)
   t.end()
 })
 
-test('encode from data', function(t) {
+test('encode from data', function (t) {
   const d = i.decode(data)
   const e = i.encode(d)
   t.matchSnapshot(e)
   t.end()
 })
 
-test('never a blank first or last line', function(t) {
+test('never a blank first or last line', function (t) {
   const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
   const e = i.encode(obj)
   t.not(e.slice(0, 1), '\n', 'Never a blank first line')
@@ -29,7 +29,7 @@ test('never a blank first or last line', function(t) {
   t.end()
 })
 
-test('encode with option', function(t) {
+test('encode with option', function (t) {
   const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
   const e = i.encode(obj, { section: 'prefix' })
 
@@ -37,7 +37,7 @@ test('encode with option', function(t) {
   t.end()
 })
 
-test('encode with whitespace', function(t) {
+test('encode with whitespace', function (t) {
   const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
   const e = i.encode(obj, { whitespace: true })
 

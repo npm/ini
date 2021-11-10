@@ -36,6 +36,13 @@ Null Object {
     "this is included",
   ],
   "br": "warm",
+  "duplicate": Null Object {
+    "ar": Array [
+      "2",
+      "3",
+    ],
+    "br": "2",
+  },
   "eq": "eq=eq",
   "false": false,
   "null": null,
@@ -99,6 +106,11 @@ cr[]=eight
 [a.b.c]
 e=1
 j=2
+
+[duplicate]
+ar[]=2
+ar[]=3
+br=2
 
 [x\\.y\\.z]
 x.y.z=xyz
