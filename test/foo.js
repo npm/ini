@@ -22,7 +22,7 @@ test('encode from data', function (t) {
 })
 
 test('never a blank first or last line', function (t) {
-  const obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
   const e = i.encode(obj)
   t.not(e.slice(0, 1), '\n', 'Never a blank first line')
   t.not(e.slice(-2), '\n\n', 'Never a blank final line')
@@ -30,16 +30,16 @@ test('never a blank first or last line', function (t) {
 })
 
 test('encode with option', function (t) {
-  const obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
-  const e = i.encode(obj, {section: 'prefix'})
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj, { section: 'prefix' })
 
   t.matchSnapshot(e)
   t.end()
 })
 
 test('encode with whitespace', function (t) {
-  const obj = {log: { type: 'file', level: {label: 'debug', value: 10} } }
-  const e = i.encode(obj, {whitespace: true})
+  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+  const e = i.encode(obj, { whitespace: true })
 
   t.matchSnapshot(e)
   t.end()
