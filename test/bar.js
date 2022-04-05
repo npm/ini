@@ -4,10 +4,10 @@ var ini = require('../')
 var test = require('tap').test
 
 var data = {
-  number: {count: 10},
-  string: {drink: 'white russian'},
-  boolean: {isTrue: true},
-  'nested boolean': {theDude: {abides: true, rugCount: 1}},
+  number: { count: 10 },
+  string: { drink: 'white russian' },
+  boolean: { isTrue: true },
+  'nested boolean': { theDude: { abides: true, rugCount: 1 } },
 }
 
 test('parse(stringify(x)) is same as x', function (t) {
