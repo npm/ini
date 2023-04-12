@@ -133,6 +133,18 @@ value=10
 
 `
 
+exports[`test/foo.js TAP encode with platform=win32 > must match snapshot 1`] = `
+Array [
+  "[log]",
+  "type=file",
+  "",
+  "[log.level]",
+  "label=debug",
+  "value=10",
+  "",
+]
+`
+
 exports[`test/foo.js TAP encode with whitespace > must match snapshot 1`] = `
 [log]
 type = file
