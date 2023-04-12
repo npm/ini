@@ -110,6 +110,18 @@ noHashComment=this\\# this is not a comment
 
 `
 
+exports[`test/foo.js TAP encode with newline > must match snapshot 1`] = `
+[log]
+
+type=file
+
+[log.level]
+
+label=debug
+value=10
+
+`
+
 exports[`test/foo.js TAP encode with option > must match snapshot 1`] = `
 [prefix.log]
 type=file
