@@ -60,3 +60,27 @@ test('encode with platform=win32', function (t) {
   t.matchSnapshot(e.split('\r\n'))
   t.end()
 })
+
+test('encode with align', function (t) {
+  const d = i.decode(data)
+  const e = i.encode(d, { align: true })
+
+  t.matchSnapshot(e)
+  t.end()
+})
+
+test('encode with sort', function (t) {
+  const d = i.decode(data)
+  const e = i.encode(d, { sort: true })
+
+  t.matchSnapshot(e)
+  t.end()
+})
+
+test('encode with align and sort', function (t) {
+  const d = i.decode(data)
+  const e = i.encode(d, { align: true, sort: true })
+
+  t.matchSnapshot(e)
+  t.end()
+})

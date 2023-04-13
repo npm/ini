@@ -76,19 +76,25 @@ prepended to all sub-sections, see the usage example above.
 
 The `options` object may contain the following:
 
-* `section` A string which will be the first `section` in the encoded
+* `align` Boolean to specify whether to align the `=` characters for
+  each section. This option will automatically enable `whitespace`.
+  Defaults to `false`.
+* `section` String which will be the first `section` in the encoded
   ini data.  Defaults to none.
+* `sort` Boolean to specify if all keys in each section, as well as
+  all sections, will be alphabetically sorted.  Defaults to `false`.
 * `whitespace` Boolean to specify whether to put whitespace around the
   `=` character.  By default, whitespace is omitted, to be friendly to
   some persnickety old parsers that don't tolerate it well.  But some
   find that it's more human-readable and pretty with the whitespace.
+  Defaults to `false`.
 * `newline` Boolean to specify whether to put an additional newline
   after a section header. Some INI file parsers (for example the TOSHIBA
   FlashAir one) need this to parse the file successfully.  By default,
   the additional newline is omitted.
 * `platform` String to define which platform this INI file is expected
   to be used with: when `platform` is `win32`, line terminations are
-  CR+LF, for other platforms line termination is LF.  By default the
+  CR+LF, for other platforms line termination is LF.  By default, the
   current platform name is used.
 * `bracketedArrays` Boolean to specify whether array values are appended
   with `[]`.  By default this is true but there are some ini parsers
