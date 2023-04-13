@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.1.0](https://github.com/npm/ini/compare/v4.0.0...v4.1.0) (2023-04-13)
+
+### Features
+
+* [`622106a`](https://github.com/npm/ini/commit/622106a1a0bcd2bc32bfd2e6f9cc45a1a1cb53f7) [#205](https://github.com/npm/ini/pull/205) add "align" and "sort" options (#205) (@rquadling)
+* [`dc64a1a`](https://github.com/npm/ini/commit/dc64a1a3aa322c0c258383bedcae738aaa67028d) [#204](https://github.com/npm/ini/pull/204) add bracketedArray option (#204) (@wraithgar)
+* [`6a3cb38`](https://github.com/npm/ini/commit/6a3cb38b134f674dff1a7b5d3732553e8bace777) [#199](https://github.com/npm/ini/pull/199) add platform option to force line endings (#199) (@wraithgar, Francois-Xavier Kowalski)
+* [`b363ae6`](https://github.com/npm/ini/commit/b363ae67ddf9b1232daafb3cc2b2b1e5cb656406) [#198](https://github.com/npm/ini/pull/198) add newline option (#198) (@wraithgar, Francois-Xavier Kowalski)
+
+### Bug Fixes
+
+* [`ad4b5d8`](https://github.com/npm/ini/commit/ad4b5d8423f67d67b8683ac8e809b9dd23fe82e2) [#200](https://github.com/npm/ini/pull/200) Refactored section split logic (#200) (@wraithgar, @platinumazure)
+* [`5b5c9b7`](https://github.com/npm/ini/commit/5b5c9b777209bae480f62fb80149008350d37bc5) [#123](https://github.com/npm/ini/pull/123) residual space after section causes bad parsing (#123) (@Nautigsam)
+* [`fa2c17e`](https://github.com/npm/ini/commit/fa2c17e6e5f4ebaec30e08653b9603049c8cf0c3) [#201](https://github.com/npm/ini/pull/201) ignore all whitespace lines (#201) (@wraithgar)
+
 ## [4.0.0](https://github.com/npm/ini/compare/v3.0.1...v4.0.0) (2023-03-08)
 
 ### ⚠️ BREAKING CHANGES
