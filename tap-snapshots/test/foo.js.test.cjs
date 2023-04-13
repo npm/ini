@@ -111,6 +111,98 @@ noHashComment=this\\# this is not a comment
 
 `
 
+exports[`test/foo.js TAP encode with align > must match snapshot 1`] = `
+o                    = p
+a with spaces        = b  c
+" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"
+"[disturbing]"       = hey you never know
+s                    = something
+s1                   = "something'
+s2                   = something else
+s3                   = 
+s4                   = 
+s5                   = "   "
+s6                   = " a "
+s7                   = true
+true                 = true
+false                = false
+null                 = null
+undefined            = undefined
+zr[]                 = deedee
+ar[]                 = one
+ar[]                 = three
+ar[]                 = this is included
+br                   = warm
+eq                   = "eq=eq"
+
+[a]
+av   = a val
+e    = { o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }
+j    = "\\"{ o: \\"p\\", a: { av: \\"a val\\", b: { c: { e: \\"this [value]\\" } } } }\\""
+"[]" = a square?
+cr[] = four
+cr[] = eight
+
+[a.b.c]
+e = 1
+j = 2
+
+[x\\.y\\.z]
+x.y.z = xyz
+
+[x\\.y\\.z.a\\.b\\.c]
+a.b.c         = abc
+nocomment     = this\\; this is not a comment
+noHashComment = this\\# this is not a comment
+
+`
+
+exports[`test/foo.js TAP encode with align and sort > must match snapshot 1`] = `
+" xa  n          p " = "\\"\\r\\nyoyoyo\\r\\r\\n"
+"[disturbing]"       = hey you never know
+a with spaces        = b  c
+ar[]                 = one
+ar[]                 = three
+ar[]                 = this is included
+br                   = warm
+eq                   = "eq=eq"
+false                = false
+null                 = null
+o                    = p
+s                    = something
+s1                   = "something'
+s2                   = something else
+s3                   = 
+s4                   = 
+s5                   = "   "
+s6                   = " a "
+s7                   = true
+true                 = true
+undefined            = undefined
+zr[]                 = deedee
+
+[a]
+"[]" = a square?
+av   = a val
+cr[] = four
+cr[] = eight
+e    = { o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }
+j    = "\\"{ o: \\"p\\", a: { av: \\"a val\\", b: { c: { e: \\"this [value]\\" } } } }\\""
+
+[a.b.c]
+e = 1
+j = 2
+
+[x\\.y\\.z]
+x.y.z = xyz
+
+[x\\.y\\.z.a\\.b\\.c]
+a.b.c         = abc
+noHashComment = this\\# this is not a comment
+nocomment     = this\\; this is not a comment
+
+`
+
 exports[`test/foo.js TAP encode with newline > must match snapshot 1`] = `
 [log]
 
@@ -143,6 +235,52 @@ Array [
   "value=10",
   "",
 ]
+`
+
+exports[`test/foo.js TAP encode with sort > must match snapshot 1`] = `
+" xa  n          p "="\\"\\r\\nyoyoyo\\r\\r\\n"
+"[disturbing]"=hey you never know
+a with spaces=b  c
+ar[]=one
+ar[]=three
+ar[]=this is included
+br=warm
+eq="eq=eq"
+false=false
+null=null
+o=p
+s=something
+s1="something'
+s2=something else
+s3=
+s4=
+s5="   "
+s6=" a "
+s7=true
+true=true
+undefined=undefined
+zr[]=deedee
+
+[a]
+"[]"=a square?
+av=a val
+cr[]=four
+cr[]=eight
+e={ o: p, a: { av: a val, b: { c: { e: "this [value]" } } } }
+j="\\"{ o: \\"p\\", a: { av: \\"a val\\", b: { c: { e: \\"this [value]\\" } } } }\\""
+
+[a.b.c]
+e=1
+j=2
+
+[x\\.y\\.z]
+x.y.z=xyz
+
+[x\\.y\\.z.a\\.b\\.c]
+a.b.c=abc
+noHashComment=this\\# this is not a comment
+nocomment=this\\; this is not a comment
+
 `
 
 exports[`test/foo.js TAP encode with whitespace > must match snapshot 1`] = `
