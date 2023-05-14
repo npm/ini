@@ -86,7 +86,7 @@ test('encode with align and sort', function (t) {
 })
 
 test('encode within browser context', function (t) {
-  process = undefined
+  Object.defineProperty(process, 'platform', { value: undefined })
 
   const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
   const e = i.encode(obj)
