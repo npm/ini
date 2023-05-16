@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.1.1](https://github.com/npm/ini/compare/v4.1.0...v4.1.1) (2023-05-16)
+
+### Bug Fixes
+
+* [`090f64e`](https://github.com/npm/ini/commit/090f64e92a7ff722adf723dc13e7b468e591f057) [#208](https://github.com/npm/ini/pull/208) check process on browser (#208) (@Creskendoll)
+
 ## [4.1.0](https://github.com/npm/ini/compare/v4.0.0...v4.1.0) (2023-04-13)
 
 ### Features
