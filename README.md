@@ -96,7 +96,7 @@ The `options` object may contain the following:
   to be used with: when `platform` is `win32`, line terminations are
   CR+LF, for other platforms line termination is LF.  By default, the
   current platform name is used.
-* `bracketedArrays` Boolean to specify whether array values are appended
+* `bracketedArray` Boolean to specify whether array values are appended
   with `[]`.  By default this is true but there are some ini parsers
   that instead treat duplicate names as arrays.
 
