@@ -1,125 +1,209 @@
-An ini format parser and serializer for node.
 
-Sections are treated as nested objects.  Items before the first
-heading are saved on the object directly.
+<br>
+
+<div align = center >
+
+An INI format parser & serializer.
+
+</div>
+
+<br>
+<br>
+
+## Note
+
+-   Sections are treated as nested objects.
+
+-   Section-less items are treated as globals.
+
+<br>
+<br>
 
 ## Usage
 
-Consider an ini-file `config.ini` that looks like this:
+Consider an INI file such as the following:
+
 ```ini
-    ; this comment is being ignored
-    scope = global
+; This comment is being ignored
+scope = global
 
-    [database]
-    user = dbuser
-    password = dbpassword
-    database = use_this_database
+[database]
+user = dbuser
+password = dbpassword
+database = use_this_database
 
-    [paths.default]
-    datadir = /var/lib/data
-    array[] = first value
-    array[] = second value
-    array[] = third value
+[paths.default]
+datadir = /var/lib/data
+array[] = first value
+array[] = second value
+array[] = third value
 ```
 
-You can read, manipulate and write the ini-file like so:
+<br>
+
+You can **read**, **modify** and **write** it like so:
 
 ```js
-    var fs = require('fs')
-      , ini = require('ini')
+import { writeFile , readFile } from 'node:fs/promises'
+import { stringify , parse } from 'ini'
 
-    var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
+//  Read INI file as text
 
-    config.scope = 'local'
-    config.database.database = 'use_another_database'
-    config.paths.default.tmpdir = '/tmp'
-    delete config.paths.default.datadir
-    config.paths.default.array.push('fourth value')
+let text = await readFile(`./Original.ini`,{
+    encoding : 'utf-8'
+})
 
-    fs.writeFileSync('./config_modified.ini', ini.stringify(config, { section: 'section' }))
+//  Parse text data to object
+
+const config = parse(text)
+
+//  Modify data object
+
+config.scope = 'local'
+config.database.database = 'use_another_database'
+config.paths.default.tmpdir = '/tmp'
+delete config.paths.default.datadir
+config.paths.default.array.push('fourth value')
+
+//  Stringify data object
+
+text = stringify(config,{ 
+    section : 'section' 
+})
+
+//  Write INI file as text
+
+await writeFile(`./Modified.ini`,text)
 ```
 
-This will result in a file called `config_modified.ini` being written
-to the filesystem with the following content:
+<br>
+
+The written file will contain the following:
 
 ```ini
-    [section]
-    scope=local
-    [section.database]
-    user=dbuser
-    password=dbpassword
-    database=use_another_database
-    [section.paths.default]
-    tmpdir=/tmp
-    array[]=first value
-    array[]=second value
-    array[]=third value
-    array[]=fourth value
+[section]
+scope=local
+[section.database]
+user=dbuser
+password=dbpassword
+database=use_another_database
+[section.paths.default]
+tmpdir=/tmp
+array[]=first value
+array[]=second value
+array[]=third value
+array[]=fourth value
 ```
+
+<br>
+<br>
 
 ## API
 
-### decode(inistring)
+<br>
 
-Decode the ini-style formatted `inistring` into a nested object.
+### Parse
 
-### parse(inistring)
-
-Alias for `decode(inistring)`
-
-### encode(object, [options])
-
-Encode the object `object` into an ini-style formatted string. If the
-optional parameter `section` is given, then all top-level properties
-of the object are put into this section and the `section`-string is
-prepended to all sub-sections, see the usage example above.
-
-The `options` object may contain the following:
-
-* `align` Boolean to specify whether to align the `=` characters for
-  each section. This option will automatically enable `whitespace`.
-  Defaults to `false`.
-* `section` String which will be the first `section` in the encoded
-  ini data.  Defaults to none.
-* `sort` Boolean to specify if all keys in each section, as well as
-  all sections, will be alphabetically sorted.  Defaults to `false`.
-* `whitespace` Boolean to specify whether to put whitespace around the
-  `=` character.  By default, whitespace is omitted, to be friendly to
-  some persnickety old parsers that don't tolerate it well.  But some
-  find that it's more human-readable and pretty with the whitespace.
-  Defaults to `false`.
-* `newline` Boolean to specify whether to put an additional newline
-  after a section header. Some INI file parsers (for example the TOSHIBA
-  FlashAir one) need this to parse the file successfully.  By default,
-  the additional newline is omitted.
-* `platform` String to define which platform this INI file is expected
-  to be used with: when `platform` is `win32`, line terminations are
-  CR+LF, for other platforms line termination is LF.  By default, the
-  current platform name is used.
-* `bracketedArray` Boolean to specify whether array values are appended
-  with `[]`.  By default this is true but there are some ini parsers
-  that instead treat duplicate names as arrays.
-
-For backwards compatibility reasons, if a `string` options is passed
-in, then it is assumed to be the `section` value.
-
-### stringify(object, [options])
-
-Alias for `encode(object, [options])`
-
-### safe(val)
-
-Escapes the string `val` such that it is safe to be used as a key or
-value in an ini-file. Basically escapes quotes. For example
+Attempts to turn the given INI string into a nested data object.
 
 ```js
-    ini.safe('"unsafe string"')
+// You can also use `decode`
+const object = parse(`<INI Text>`) 
 ```
 
-would result in
+<br>
 
-    "\"unsafe string\""
+### Stringify
 
-### unsafe(val)
+Encodes the given data object as an INI formatted string.
 
-Unescapes the string `val`
+```js
+// You can also use `encode`
+stringify(object,{
+
+    /**
+     *  Whether to insert spaces before & after `=`
+     * 
+     *  Disabled by default to have better 
+     *  compatibility with old picky parsers.
+     */
+
+    whitespace : false ,
+
+    /**
+     *  Whether to align the `=` character for each section.
+     *  -> Also enables the `whitespace` option
+     */
+
+    align : false ,
+
+    /**
+     *  Identifier to use for global items 
+     *  and to prepend to all other sections.
+     */
+
+    section ,
+
+    /**
+     *  Whether to sort all sections & their keys alphabetically.
+     */
+
+    sort : false ,
+
+    /**
+     *  Whether to insert a newline after each section header.
+     * 
+     *  The TOSHIBA & FlashAir parser require this format. 
+     */
+
+    newline : false ,
+
+    /**
+     *  Which platforms line-endings should be used.
+     * 
+     *  win32 -> CR+LF
+     *  other -> LF
+     * 
+     *  Default is the current platform
+     */
+
+    platform ,
+
+    /**
+     *  Whether to append `[]` to array keys.
+     * 
+     *  Some parsers treat duplicate names by themselves as arrays
+     */
+
+    backetedArray : true
+
+})
+```
+
+<br>
+
+*For backwards compatibility any string passed as the*  
+*options parameter is treated as the `section` option.*
+
+```js
+stringify(object,'section')
+```
+
+<br>
+
+### Un / Escape
+
+Turn the given string into a safe to  
+use key or value in your INI file.
+
+```js
+safe(`"unsafe string"`) // -> \"unsafe string\"
+```
+
+Or reverse the process with:
+
+```js
+unsafe(`\\"safe string\\"`) // -> "safe string"
+```
+
+<br>
