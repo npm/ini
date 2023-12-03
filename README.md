@@ -1,23 +1,11 @@
 
-<br>
-
-<div align = center >
-
 An INI format parser & serializer.
-
-</div>
-
-<br>
-<br>
 
 ## Note
 
 -   Sections are treated as nested objects.
 
 -   Section-less items are treated as globals.
-
-<br>
-<br>
 
 ## Usage
 
@@ -38,8 +26,6 @@ array[] = first value
 array[] = second value
 array[] = third value
 ```
-
-<br>
 
 You can **read**, **modify** and **write** it like so:
 
@@ -76,8 +62,6 @@ text = stringify(config,{
 await writeFile(`./Modified.ini`,text)
 ```
 
-<br>
-
 The written file will contain the following:
 
 ```ini
@@ -95,12 +79,7 @@ array[]=third value
 array[]=fourth value
 ```
 
-<br>
-<br>
-
 ## API
-
-<br>
 
 ### Parse
 
@@ -110,8 +89,6 @@ Attempts to turn the given INI string into a nested data object.
 // You can also use `decode`
 const object = parse(`<INI Text>`) 
 ```
-
-<br>
 
 ### Stringify
 
@@ -180,16 +157,12 @@ stringify(object,{
 })
 ```
 
-<br>
-
 *For backwards compatibility any string passed as the*  
 *options parameter is treated as the `section` option.*
 
 ```js
 stringify(object,'section')
 ```
-
-<br>
 
 ### Un / Escape
 
@@ -205,5 +178,3 @@ Or reverse the process with:
 ```js
 unsafe(`\\"safe string\\"`) // -> "safe string"
 ```
-
-<br>
