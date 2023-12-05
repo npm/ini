@@ -152,7 +152,7 @@ stringify(object,{
      *  Some parsers treat duplicate names by themselves as arrays
      */
 
-    backetedArray : true
+    bracketedArray : true
 
 })
 ```
