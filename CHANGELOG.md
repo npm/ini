@@ -1,5 +1,34 @@
 # Changelog
 
+## [4.1.2](https://github.com/npm/ini/compare/v4.1.1...v4.1.2) (2024-03-04)
+
+### Bug Fixes
+
+* [`e237377`](https://github.com/npm/ini/commit/e237377029caa6fe76b1290eb6e64247e3e11cf3) [#243](https://github.com/npm/ini/pull/243) Removed the unused doUnesc param in the unsafe function (#243) (@LoicE5)
+
+### Documentation
+
+* [`31b3209`](https://github.com/npm/ini/commit/31b3209c45498d1e0f4e38ee5d451ea80b56aa01) [#239](https://github.com/npm/ini/pull/239) Fix typo in `bracketedArray` option name in README.md (#239) (@futpib)
+* [`24eb9a0`](https://github.com/npm/ini/commit/24eb9a0a8e5b3de43c993d463314d64f88ca1d50) Reworked README (#235) (@PhoneDroid)
+* [`fc6ce28`](https://github.com/npm/ini/commit/fc6ce28a5963aa09d70ad70353397868e99fe804) [#212](https://github.com/npm/ini/pull/212) Fix typo in `bracketedArray` option name in README.md (#212) (@futpib)
+
+### Chores
+
+* [`29caa7c`](https://github.com/npm/ini/commit/29caa7c7578b9ed0b3d36987dc48cec30608d05a) [#240](https://github.com/npm/ini/pull/240) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`eafd8f7`](https://github.com/npm/ini/commit/eafd8f75194ba913a5aa23a920c84808452b0f24) [#240](https://github.com/npm/ini/pull/240) bump @npmcli/template-oss from 4.21.1 to 4.21.3 (@dependabot[bot])
+* [`5cb0c9f`](https://github.com/npm/ini/commit/5cb0c9f453a190ee5a1d33c590945ca5bafd5fb5) [#238](https://github.com/npm/ini/pull/238) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`4ad194e`](https://github.com/npm/ini/commit/4ad194e5f01e67cc52f5a4f1a68e50d596cd51e5) [#238](https://github.com/npm/ini/pull/238) bump @npmcli/template-oss from 4.21.0 to 4.21.1 (@dependabot[bot])
+* [`a138d1f`](https://github.com/npm/ini/commit/a138d1f1e210fc5d67c45465265030188b752308) [#233](https://github.com/npm/ini/pull/233) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`e37a22e`](https://github.com/npm/ini/commit/e37a22ed0c52ac4f9432fb99357a1d10291d56bb) [#233](https://github.com/npm/ini/pull/233) bump @npmcli/template-oss from 4.19.0 to 4.21.0 (@dependabot[bot])
+* [`2f57997`](https://github.com/npm/ini/commit/2f5799792c0f06c6db8a0fcf882c6d7487c4710a) [#215](https://github.com/npm/ini/pull/215) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`526d5fe`](https://github.com/npm/ini/commit/526d5fec9d2be1dc4307f6ee7a2994bb9d59d4f6) [#215](https://github.com/npm/ini/pull/215) bump @npmcli/template-oss from 4.18.1 to 4.19.0 (@dependabot[bot])
+* [`98de8c2`](https://github.com/npm/ini/commit/98de8c2fb6e640da26546dbcb90fa36af1f3b864) [#214](https://github.com/npm/ini/pull/214) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`fd33f54`](https://github.com/npm/ini/commit/fd33f541d8d54967c65b993a59af164448d0c798) [#214](https://github.com/npm/ini/pull/214) bump @npmcli/template-oss from 4.18.0 to 4.18.1 (@dependabot[bot])
+* [`21abe16`](https://github.com/npm/ini/commit/21abe160c2314b6a96ce536c05a9b6ca79b394da) [#211](https://github.com/npm/ini/pull/211) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`f52bed5`](https://github.com/npm/ini/commit/f52bed502eb4bc1e182d027013b89d8653db9e57) [#211](https://github.com/npm/ini/pull/211) bump @npmcli/template-oss from 4.17.0 to 4.18.0 (@dependabot[bot])
+* [`da3b717`](https://github.com/npm/ini/commit/da3b717f81a06ae06f03cc784d56c653839bb66a) [#210](https://github.com/npm/ini/pull/210) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`9e9adf4`](https://github.com/npm/ini/commit/9e9adf45e0ad196e9dd76a65ca85047cee909870) [#210](https://github.com/npm/ini/pull/210) bump @npmcli/template-oss from 4.15.1 to 4.17.0 (@dependabot[bot])
+
 ## [4.1.1](https://github.com/npm/ini/compare/v4.1.0...v4.1.1) (2023-05-16)
 
 ### Bug Fixes
