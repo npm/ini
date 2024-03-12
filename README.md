@@ -152,8 +152,13 @@ stringify(object,{
      *  Some parsers treat duplicate names by themselves as arrays
      */
 
-    bracketedArray : true
+    bracketedArray : true,
 
+    /**
+     *  Whether to save the comments.
+     */
+
+    comments: false ,
 })
 ```
 
