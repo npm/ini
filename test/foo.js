@@ -94,3 +94,16 @@ test('encode within browser context', function (t) {
   t.matchSnapshot(e)
   t.end()
 })
+test('stringify with comments', function (t) {
+  const d = i.parse(data, { preserveComments: true })
+  const s = i.stringify(d, { preserveComments: true })
+  t.matchSnapshot(s)
+  t.end()
+})
+
+test('stringify with comments custom commentsKey', function (t) {
+  const d = i.parse(data, { commentsKey: 'internalComments', preserveComments: true })
+  const s = i.stringify(d, { commentsKey: 'internalComments', preserveComments: true })
+  t.matchSnapshot(s)
+  t.end()
+})
