@@ -87,7 +87,10 @@ Attempts to turn the given INI string into a nested data object.
 
 ```js
 // You can also use `decode`
-const object = parse(`<INI Text>`) 
+const object = parse(`<INI Text>`)
+
+// Preserve the comments when parsing
+const objectWithComments = parse(`<INI Text>`, { preserveComments: true }) 
 ```
 
 ### Stringify
@@ -152,8 +155,20 @@ stringify(object,{
      *  Some parsers treat duplicate names by themselves as arrays
      */
 
-    bracketedArray : true
+    bracketedArray : true,
 
+    /**
+     *  Use a custom dictionary object key for storing comments. Default value is comments.
+     *  If have a key in your object named comments, you will need to pass in a different value here.
+     */
+
+    commentsKey,
+
+    /**
+     *  Whether or not to save comments during stringify. Default value is false.
+     */
+
+    preserveComments,
 })
 ```
 
