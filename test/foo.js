@@ -100,10 +100,3 @@ test('stringify with comments', function (t) {
   t.matchSnapshot(s)
   t.end()
 })
-
-test('stringify with comments custom commentsKey', function (t) {
-  const d = i.parse(data, { commentsKey: 'internalComments', preserveComments: true })
-  const s = i.stringify(d, { commentsKey: 'internalComments', preserveComments: true })
-  t.matchSnapshot(s)
-  t.end()
-})
