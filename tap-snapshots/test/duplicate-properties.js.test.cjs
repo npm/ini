@@ -11,12 +11,12 @@ Null Object {
     "three",
   ],
   "ar[]": "one",
-  "b": Array [
+  "brr": Array [
+    "1",
     "2",
     "3",
     "3",
   ],
-  "brr": "1",
   "str": "3",
   "zr": "123",
   "zr[]": "deedee",
