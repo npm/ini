@@ -158,7 +158,7 @@ stringify(object,{
     bracketedArray : true,
 
     /**
-     *  Whether or not to save comments during stringify. Default value is false.
+     *  Whether to save comments during stringify. Default value is false.
      */
 
     preserveComments,
