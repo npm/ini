@@ -19,7 +19,7 @@
     "template-oss-apply": "template-oss-apply --force"
   },
   "devDependencies": {
-    "@npmcli/eslint-config": "^4.0.0",
+    "@npmcli/eslint-config": "^5.0.0",
     "@npmcli/template-oss": "4.23.3",
     "tap": "^16.0.1"
   },
