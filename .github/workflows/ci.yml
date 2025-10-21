@@ -106,7 +106,9 @@ jobs:
           node: ${{ steps.node.outputs.node-version }}
       - name: Install Dependencies
         run: npm i --ignore-scripts --no-audit --no-fund
-      - name: Add Problem Matcher
-        run: echo "::add-matcher::.github/matchers/tap.json"
-      - name: Test
+      - name: Test (with coverage on Node >= 24)
+        if: ${{ startsWith(matrix.node-version, '24') }}
+        run: npm run test:cover --ignore-scripts
+      - name: Test (without coverage on Node < 24)
+        if: ${{ !startsWith(matrix.node-version, '24') }}
         run: npm test --ignore-scripts
