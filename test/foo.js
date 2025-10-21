@@ -1,96 +1,85 @@
 const i = require('../')
-const tap = require('tap')
-const test = tap.test
-const fs = require('fs')
-const path = require('path')
+const fs = require('node:fs')
+const t = require('node:test')
+const a = require('node:assert')
+const path = require('node:path')
 const fixture = path.resolve(__dirname, './fixtures/foo.ini')
 const data = fs.readFileSync(fixture, 'utf8')
 
-tap.cleanSnapshot = s => s.replace(/\r\n/g, '\n')
+t.snapshot.setDefaultSnapshotSerializers([
+  JSON.stringify,
+  s => s.replace(/\r\n/g, '\n'),
+])
 
-test('decode from file', function (t) {
-  const d = i.decode(data)
-  t.matchSnapshot(d)
-  t.end()
-})
+t.suite('foo.ini', () => {
+  t.test('decode from file', (t) => {
+    const d = i.decode(data)
+    t.assert.snapshot(d)
+  })
 
-test('encode from data', function (t) {
-  const d = i.decode(data)
-  const e = i.encode(d)
-  t.matchSnapshot(e)
-  t.end()
-})
+  t.test('encode from data', (t) => {
+    const d = i.decode(data)
+    const e = i.encode(d)
+    t.assert.snapshot(e)
+  })
 
-test('never a blank first or last line', function (t) {
-  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
-  const e = i.encode(obj)
-  t.not(e.slice(0, 1), '\n', 'Never a blank first line')
-  t.not(e.slice(-2), '\n\n', 'Never a blank final line')
-  t.end()
-})
+  t.test('never a blank first or last line', () => {
+    const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+    const e = i.encode(obj)
+    a.notEqual(e.slice(0, 1), '\n', 'Never a blank first line')
+    a.notEqual(e.slice(-2), '\n\n', 'Never a blank final line')
+  })
 
-test('encode with option', function (t) {
-  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
-  const e = i.encode(obj, { section: 'prefix' })
+  t.test('encode with option', (t) => {
+    const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+    const e = i.encode(obj, { section: 'prefix' })
+    t.assert.snapshot(e)
+  })
 
-  t.matchSnapshot(e)
-  t.end()
-})
+  t.test('encode with whitespace', (t) => {
+    const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+    const e = i.encode(obj, { whitespace: true })
 
-test('encode with whitespace', function (t) {
-  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
-  const e = i.encode(obj, { whitespace: true })
+    t.assert.snapshot(e)
+  })
 
-  t.matchSnapshot(e)
-  t.end()
-})
+  t.test('encode with newline', (t) => {
+    const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+    const e = i.encode(obj, { newline: true })
 
-test('encode with newline', function (t) {
-  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
-  const e = i.encode(obj, { newline: true })
+    t.assert.snapshot(e)
+  })
 
-  t.matchSnapshot(e)
-  t.end()
-})
+  t.test('encode with platform=win32', (t) => {
+    const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+    const e = i.encode(obj, { platform: 'win32' })
+    t.assert.snapshot(e.split('\r\n'))
+  })
 
-test('encode with platform=win32', function (t) {
-  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
-  const e = i.encode(obj, { platform: 'win32' })
+  t.test('encode with align', (t) => {
+    const d = i.decode(data)
+    const e = i.encode(d, { align: true })
+    t.assert.snapshot(e)
+  })
 
-  t.matchSnapshot(e.split('\r\n'))
-  t.end()
-})
+  t.test('encode with sort', (t) => {
+    const d = i.decode(data)
+    const e = i.encode(d, { sort: true })
+    t.assert.snapshot(e)
+  })
 
-test('encode with align', function (t) {
-  const d = i.decode(data)
-  const e = i.encode(d, { align: true })
+  t.test('encode with align and sort', (t) => {
+    const d = i.decode(data)
+    const e = i.encode(d, { align: true, sort: true })
+    t.assert.snapshot(e)
+  })
 
-  t.matchSnapshot(e)
-  t.end()
-})
+  t.test('encode within browser context', (t) => {
+    Object.defineProperty(process, 'platform', { value: undefined })
 
-test('encode with sort', function (t) {
-  const d = i.decode(data)
-  const e = i.encode(d, { sort: true })
+    const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
+    const e = i.encode(obj)
 
-  t.matchSnapshot(e)
-  t.end()
-})
-
-test('encode with align and sort', function (t) {
-  const d = i.decode(data)
-  const e = i.encode(d, { align: true, sort: true })
-
-  t.matchSnapshot(e)
-  t.end()
-})
-
-test('encode within browser context', function (t) {
-  Object.defineProperty(process, 'platform', { value: undefined })
-
-  const obj = { log: { type: 'file', level: { label: 'debug', value: 10 } } }
-  const e = i.encode(obj)
-
-  t.matchSnapshot(e)
-  t.end()
+    t.assert.snapshot(e)
+  })
 })

@@ -1,0 +1,15 @@
+exports[`duplicate properties > decode duplicate properties with bracketedArray=false 1`] = `
+{"zr[]":"deedee","zr":"123","ar[]":"one","ar":["three"],"str":"3","brr":["1","2","3","3"]}
+`;
+
+exports[`duplicate properties > decode with duplicate properties 1`] = `
+{"zr":["deedee","123"],"ar":["one","three"],"str":"3","brr":"3"}
+`;
+
+exports[`duplicate properties > encode duplicate properties with bracketedArray=false 1`] = `
+"ar=1\\nar=2\\nar=3\\nbr=1\\nbr=2\\n"
+`;
+
+exports[`duplicate properties > encode with duplicate properties 1`] = `
+"ar[]=1\\nar[]=2\\nar[]=3\\nbr[]=1\\nbr[]=2\\n"
+`;

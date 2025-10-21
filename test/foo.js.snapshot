@@ -1,0 +1,39 @@
+exports[`foo.ini > decode from file 1`] = `
+{"o":"p","a with spaces":"b  c"," xa  n          p ":"\\"\\r\\nyoyoyo\\r\\r\\n","[disturbing]":"hey you never know","s":"something","s1":"\\"something'","s2":"something else","s3":"","s4":"","s5":"   ","s6":" a ","s7":true,"true":true,"false":false,"null":null,"undefined":"undefined","zr":["deedee"],"ar":["one","three","this is included"],"br":"warm","eq":"eq=eq","a":{"av":"a val","e":"{ o: p, a: { av: a val, b: { c: { e: \\"this [value]\\" } } } }","j":"\\"{ o: \\"p\\", a: { av: \\"a val\\", b: { c: { e: \\"this [value]\\" } } } }\\"","[]":"a square?","cr":["four","eight"],"b":{"c":{"e":"1","j":"2"}}},"b":{},"x.y.z":{"x.y.z":"xyz","a.b.c":{"a.b.c":"abc","nocomment":"this; this is not a comment","noHashComment":"this# this is not a comment"}}}
+`;
+
+exports[`foo.ini > encode from data 1`] = `
+"o=p\\na with spaces=b  c\\n\\" xa  n          p \\"=\\"\\\\\\"\\\\r\\\\nyoyoyo\\\\r\\\\r\\\\n\\"\\n\\"[disturbing]\\"=hey you never know\\ns=something\\ns1=\\"something'\\ns2=something else\\ns3=\\ns4=\\ns5=\\"   \\"\\ns6=\\" a \\"\\ns7=true\\ntrue=true\\nfalse=false\\nnull=null\\nundefined=undefined\\nzr[]=deedee\\nar[]=one\\nar[]=three\\nar[]=this is included\\nbr=warm\\neq=\\"eq=eq\\"\\n\\n[a]\\nav=a val\\ne={ o: p, a: { av: a val, b: { c: { e: \\"this [value]\\" } } } }\\nj=\\"\\\\\\"{ o: \\\\\\"p\\\\\\", a: { av: \\\\\\"a val\\\\\\", b: { c: { e: \\\\\\"this [value]\\\\\\" } } } }\\\\\\"\\"\\n\\"[]\\"=a square?\\ncr[]=four\\ncr[]=eight\\n\\n[a.b.c]\\ne=1\\nj=2\\n\\n[x\\\\.y\\\\.z]\\nx.y.z=xyz\\n\\n[x\\\\.y\\\\.z.a\\\\.b\\\\.c]\\na.b.c=abc\\nnocomment=this\\\\; this is not a comment\\nnoHashComment=this\\\\# this is not a comment\\n"
+`;
+
+exports[`foo.ini > encode with align 1`] = `
+"o                    = p\\na with spaces        = b  c\\n\\" xa  n          p \\" = \\"\\\\\\"\\\\r\\\\nyoyoyo\\\\r\\\\r\\\\n\\"\\n\\"[disturbing]\\"       = hey you never know\\ns                    = something\\ns1                   = \\"something'\\ns2                   = something else\\ns3                   = \\ns4                   = \\ns5                   = \\"   \\"\\ns6                   = \\" a \\"\\ns7                   = true\\ntrue                 = true\\nfalse                = false\\nnull                 = null\\nundefined            = undefined\\nzr[]                 = deedee\\nar[]                 = one\\nar[]                 = three\\nar[]                 = this is included\\nbr                   = warm\\neq                   = \\"eq=eq\\"\\n\\n[a]\\nav   = a val\\ne    = { o: p, a: { av: a val, b: { c: { e: \\"this [value]\\" } } } }\\nj    = \\"\\\\\\"{ o: \\\\\\"p\\\\\\", a: { av: \\\\\\"a val\\\\\\", b: { c: { e: \\\\\\"this [value]\\\\\\" } } } }\\\\\\"\\"\\n\\"[]\\" = a square?\\ncr[] = four\\ncr[] = eight\\n\\n[a.b.c]\\ne = 1\\nj = 2\\n\\n[x\\\\.y\\\\.z]\\nx.y.z = xyz\\n\\n[x\\\\.y\\\\.z.a\\\\.b\\\\.c]\\na.b.c         = abc\\nnocomment     = this\\\\; this is not a comment\\nnoHashComment = this\\\\# this is not a comment\\n"
+`;
+
+exports[`foo.ini > encode with align and sort 1`] = `
+"\\" xa  n          p \\" = \\"\\\\\\"\\\\r\\\\nyoyoyo\\\\r\\\\r\\\\n\\"\\n\\"[disturbing]\\"       = hey you never know\\na with spaces        = b  c\\nar[]                 = one\\nar[]                 = three\\nar[]                 = this is included\\nbr                   = warm\\neq                   = \\"eq=eq\\"\\nfalse                = false\\nnull                 = null\\no                    = p\\ns                    = something\\ns1                   = \\"something'\\ns2                   = something else\\ns3                   = \\ns4                   = \\ns5                   = \\"   \\"\\ns6                   = \\" a \\"\\ns7                   = true\\ntrue                 = true\\nundefined            = undefined\\nzr[]                 = deedee\\n\\n[a]\\n\\"[]\\" = a square?\\nav   = a val\\ncr[] = four\\ncr[] = eight\\ne    = { o: p, a: { av: a val, b: { c: { e: \\"this [value]\\" } } } }\\nj    = \\"\\\\\\"{ o: \\\\\\"p\\\\\\", a: { av: \\\\\\"a val\\\\\\", b: { c: { e: \\\\\\"this [value]\\\\\\" } } } }\\\\\\"\\"\\n\\n[a.b.c]\\ne = 1\\nj = 2\\n\\n[x\\\\.y\\\\.z]\\nx.y.z = xyz\\n\\n[x\\\\.y\\\\.z.a\\\\.b\\\\.c]\\na.b.c         = abc\\nnoHashComment = this\\\\# this is not a comment\\nnocomment     = this\\\\; this is not a comment\\n"
+`;
+
+exports[`foo.ini > encode with newline 1`] = `
+"[log]\\n\\ntype=file\\n\\n[log.level]\\n\\nlabel=debug\\nvalue=10\\n"
+`;
+
+exports[`foo.ini > encode with option 1`] = `
+"[prefix.log]\\ntype=file\\n\\n[prefix.log.level]\\nlabel=debug\\nvalue=10\\n"
+`;
+
+exports[`foo.ini > encode with platform=win32 1`] = `
+["[log]","type=file","","[log.level]","label=debug","value=10",""]
+`;
+
+exports[`foo.ini > encode with sort 1`] = `
+"\\" xa  n          p \\"=\\"\\\\\\"\\\\r\\\\nyoyoyo\\\\r\\\\r\\\\n\\"\\n\\"[disturbing]\\"=hey you never know\\na with spaces=b  c\\nar[]=one\\nar[]=three\\nar[]=this is included\\nbr=warm\\neq=\\"eq=eq\\"\\nfalse=false\\nnull=null\\no=p\\ns=something\\ns1=\\"something'\\ns2=something else\\ns3=\\ns4=\\ns5=\\"   \\"\\ns6=\\" a \\"\\ns7=true\\ntrue=true\\nundefined=undefined\\nzr[]=deedee\\n\\n[a]\\n\\"[]\\"=a square?\\nav=a val\\ncr[]=four\\ncr[]=eight\\ne={ o: p, a: { av: a val, b: { c: { e: \\"this [value]\\" } } } }\\nj=\\"\\\\\\"{ o: \\\\\\"p\\\\\\", a: { av: \\\\\\"a val\\\\\\", b: { c: { e: \\\\\\"this [value]\\\\\\" } } } }\\\\\\"\\"\\n\\n[a.b.c]\\ne=1\\nj=2\\n\\n[x\\\\.y\\\\.z]\\nx.y.z=xyz\\n\\n[x\\\\.y\\\\.z.a\\\\.b\\\\.c]\\na.b.c=abc\\nnoHashComment=this\\\\# this is not a comment\\nnocomment=this\\\\; this is not a comment\\n"
+`;
+
+exports[`foo.ini > encode with whitespace 1`] = `
+"[log]\\ntype = file\\n\\n[log.level]\\nlabel = debug\\nvalue = 10\\n"
+`;
+
+exports[`foo.ini > encode within browser context 1`] = `
+"[log]\\ntype=file\\n\\n[log.level]\\nlabel=debug\\nvalue=10\\n"
+`;
