@@ -1,21 +1,19 @@
-// test that parse(stringify(obj)
+const ini = require('../')
+const t = require('node:test')
+const a = require('node:assert')
 
-var ini = require('../')
-var test = require('tap').test
-
-var data = {
+const data = {
   number: { count: 10 },
   string: { drink: 'white russian' },
   boolean: { isTrue: true },
   'nested boolean': { theDude: { abides: true, rugCount: 1 } },
 }
 
-test('parse(stringify(x)) is same as x', function (t) {
-  for (var k in data) {
-    var s = ini.stringify(data[k])
-    t.comment(s, data[k])
-    t.same(ini.parse(s), data[k])
+t.suite('parse(stringify(x)) is same as x', () => {
+  for (const k in data) {
+    const s = ini.stringify(data[k])
+    t.test(k, () => {
+      a.deepEqual(ini.parse(s), data[k])
+    })
   }
-
-  t.end()
 })
