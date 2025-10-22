@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.0.0](https://github.com/npm/ini/compare/v5.0.0...v6.0.0) (2025-10-22)
+### ⚠️ BREAKING CHANGES
+* `ini` now supports node `^20.17.0 || >=22.9.0`
+### Bug Fixes
+* [`6d395a4`](https://github.com/npm/ini/commit/6d395a4aaf7d7a5e32e250809cb7bd04c6a27b66) [#291](https://github.com/npm/ini/pull/291) align to npm 11 node engine range (#291) (@owlstronaut)
+### Chores
+* [`23a36a9`](https://github.com/npm/ini/commit/23a36a9ca194d97486ed367f63d13a2cde1d1ce5) [#290](https://github.com/npm/ini/pull/290) bump @npmcli/template-oss from 4.26.0 to 4.27.1 (#290) (@dependabot[bot], @npm-cli-bot)
+
 ## [5.0.0](https://github.com/npm/ini/compare/v4.1.3...v5.0.0) (2024-09-03)
 ### ⚠️ BREAKING CHANGES
 * `ini` now supports node `^18.17.0 || >=20.5.0`
