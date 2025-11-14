@@ -71,6 +71,9 @@ scope=local
 user=dbuser
 password=dbpassword
 database=use_another_database
+description=this is a multiline 
+  value -- continuation lines for multiline
+  values must be indented
 [section.paths.default]
 tmpdir=/tmp
 array[]=first value
@@ -87,7 +90,22 @@ Attempts to turn the given INI string into a nested data object.
 
 ```js
 // You can also use `decode`
-const object = parse(`<INI Text>`) 
+const object = parse(`<INI Text>`, {
+  /**
+   * Interpret indented lines that immediately follow key/value pairs
+   * as multiline continuations. Enabled by default for backwards
+   * compatibility with the Node.js parser this module replaces.
+   *
+   * Set to `false` to treat those indented lines as standalone keys.
+   */
+  multiline: true,
+
+  /**
+   * Whether to treat repeated keys without a `[]` suffix as arrays.
+   * Enabled by default to match the .ini format used by npm.
+   */
+  bracketedArray: true,
+})
 ```
 
 ### Stringify
@@ -152,7 +170,21 @@ stringify(object,{
      *  Some parsers treat duplicate names by themselves as arrays
      */
 
-    bracketedArray : true
+    bracketedArray : true,
+
+    /**
+     *  Enforce indentation on continuation lines for string values
+     *  that contain literal newlines.
+     *
+     *  When `true` (default), `stringify()` throws if any line after
+     *  the first does not start with a space or tab. This protects
+     *  against accidentally emitting multiline INI values that other
+     *  parsers cannot safely read.
+     *
+     *  Set to `false` to fall back to JSON-quoted output for those
+     *  values (the legacy behavior prior to multiline support).
+     */
+    strictMultiline : true
 
 })
 ```
