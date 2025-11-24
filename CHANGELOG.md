@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+
+* add multiline parsing/encoding support with `multiline` (parse) and `strictMultiline` (stringify) options
+
 ## [6.0.0](https://github.com/npm/ini/compare/v5.0.0...v6.0.0) (2025-10-22)
 ### ⚠️ BREAKING CHANGES
 * `ini` now supports node `^20.17.0 || >=22.9.0`

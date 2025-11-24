@@ -5,11 +5,19 @@ const fs = require('fs')
 const path = require('path')
 const fixture = path.resolve(__dirname, './fixtures/foo.ini')
 const data = fs.readFileSync(fixture, 'utf8')
+const errorFixture = path.resolve(__dirname, './fixtures/foo-multiline-error.ini')
+const errorData = fs.readFileSync(errorFixture, 'utf8')
 
 tap.cleanSnapshot = s => s.replace(/\r\n/g, '\n')
 
 test('decode from file', function (t) {
   const d = i.decode(data)
+  t.matchSnapshot(d)
+  t.end()
+})
+
+test('decode from file with multiline disabled', function (t) {
+  const d = i.decode(data, { multiline: false })
   t.matchSnapshot(d)
   t.end()
 })
@@ -92,5 +100,19 @@ test('encode within browser context', function (t) {
   const e = i.encode(obj)
 
   t.matchSnapshot(e)
+  t.end()
+})
+
+test('legacy encode preserves problematic multiline entry', function (t) {
+  const obj = i.decode(errorData)
+  const encoded = i.encode(obj, { strictMultiline: false })
+  // make sure the lone \r is treated as newline on Windows
+  t.matchSnapshot(encoded.split(/\r?\n/))
+  t.end()
+})
+
+test('strict encode fails on problematic multiline entry', function (t) {
+  const obj = i.decode(errorData)
+  t.throws(() => i.encode(obj, { strictMultiline: true }))
   t.end()
 })
