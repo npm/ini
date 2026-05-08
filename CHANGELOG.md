@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.0.0](https://github.com/npm/ini/compare/v6.0.0...v7.0.0) (2026-05-08)
+### ⚠️ BREAKING CHANGES
+* `ini` now supports node `^22.22.2 || ^24.15.0 || >=26.0.0`
+* template-oss-apply
+### Features
+* [`55b6841`](https://github.com/npm/ini/commit/55b6841261aad580ce979c1ada97885a0617b965) [#301](https://github.com/npm/ini/pull/301) bump to new node engine range (@owlstronaut)
+* [`2b11ba8`](https://github.com/npm/ini/commit/2b11ba8283afa33211844be6fa29794970ccf7b7) [#301](https://github.com/npm/ini/pull/301) template-oss-apply (@owlstronaut)
+### Chores
+* [`f6ed5be`](https://github.com/npm/ini/commit/f6ed5bee3d7b1c175b687c703213217b23df9199) [#301](https://github.com/npm/ini/pull/301) template-oss-apply (@owlstronaut)
+* [`a2c835e`](https://github.com/npm/ini/commit/a2c835ec4690c5e67651a403d0f952aaff018f42) [#293](https://github.com/npm/ini/pull/293) bump @npmcli/eslint-config from 5.1.0 to 6.0.0 (#293) (@dependabot[bot])
+* [`3661dce`](https://github.com/npm/ini/commit/3661dce193f03675ec6ddc0938e2483d0ab41f38) [#296](https://github.com/npm/ini/pull/296) bump @npmcli/template-oss from 4.28.0 to 4.28.1 (#296) (@dependabot[bot], @npm-cli-bot)
+
 ## [6.0.0](https://github.com/npm/ini/compare/v5.0.0...v6.0.0) (2025-10-22)
 ### ⚠️ BREAKING CHANGES
 * `ini` now supports node `^20.17.0 || >=22.9.0`
