@@ -17,17 +17,3 @@ updates:
     labels:
       - "Dependencies"
     open-pull-requests-limit: 10
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: daily
-    target-branch: "latest"
-    allow:
-      - dependency-type: direct
-    versioning-strategy: increase-if-necessary
-    commit-message:
-      prefix: deps
-      prefix-development: chore
-    labels:
-      - "Dependencies"
-    open-pull-requests-limit: 10
