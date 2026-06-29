@@ -19,3 +19,25 @@ test('parse(stringify(x)) is same as x', function (t) {
 
   t.end()
 })
+
+// `unsafe` unescapes `\\`, `\;` and `\#`, so `safe` has to escape the
+// backslash for those values to survive a round trip.
+test('parse(stringify(x)) round-trips values containing backslashes', function (t) {
+  var values = {
+    'two backslashes': '\\\\', // \ \
+    'windows path': 'C:\\\\tmp\\\\x', // C : \ \ t m p \ \ x
+    'backslash before semicolon': 'a\\;b', // a \ ; b
+    'backslash before hash': 'a\\#b', // a \ # b
+  }
+  for (var label in values) {
+    var obj = { k: values[label] }
+    t.same(ini.parse(ini.stringify(obj)), obj, label)
+  }
+
+  // a backslash in a key name has to round-trip as well
+  var keyed = {}
+  keyed['a\\\\b'] = 'v' // a \ \ b
+  t.same(ini.parse(ini.stringify(keyed)), keyed, 'backslash in key')
+
+  t.end()
+})
