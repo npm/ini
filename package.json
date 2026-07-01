@@ -41,5 +41,9 @@
       "--exclude",
       "tap-snapshots/**"
     ]
+  },
+  "homepage": "https://github.com/npm/ini",
+  "bugs": {
+    "url": "https://github.com/npm/ini/issues"
   }
 }
