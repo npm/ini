@@ -8,6 +8,7 @@ var data = {
   string: { drink: 'white russian' },
   boolean: { isTrue: true },
   'nested boolean': { theDude: { abides: true, rugCount: 1 } },
+  'key ending in []': { 'foo[]': 'bar' },
 }
 
 test('parse(stringify(x)) is same as x', function (t) {
