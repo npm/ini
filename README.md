@@ -67,16 +67,18 @@ The written file will contain the following:
 ```ini
 [section]
 scope=local
+
 [section.database]
 user=dbuser
 password=dbpassword
 database=use_another_database
+
 [section.paths.default]
-tmpdir=/tmp
 array[]=first value
 array[]=second value
 array[]=third value
 array[]=fourth value
+tmpdir=/tmp
 ```
 
 ## API
@@ -170,11 +172,13 @@ Turn the given string into a safe to
 use key or value in your INI file.
 
 ```js
-safe(`"unsafe string"`) // -> \"unsafe string\"
+import { safe, unsafe } from 'ini'
+
+safe('a=b') // -> '"a=b"'
 ```
 
 Or reverse the process with:
 
 ```js
-unsafe(`\\"safe string\\"`) // -> "safe string"
+unsafe('"a=b"') // -> 'a=b'
 ```
