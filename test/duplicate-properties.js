@@ -38,3 +38,14 @@ test('encode duplicate properties with bracketedArray=false', function (t) {
   t.matchSnapshot(e)
   t.end()
 })
+
+// 2026-10-11: Prototype member names are ordinary duplicate keys in INI data.
+test('decode duplicate keys named after prototype properties', function (t) {
+  for (const key of ['constructor', 'toString', 'valueOf', 'hasOwnProperty']) {
+    const input = `${key}=first\n${key}=second\n${key}=third`
+    t.same(i.decode(input, { bracketedArray: false })[key], ['first', 'second', 'third'], key)
+    t.same(i.decode(`${key}=single`, { bracketedArray: false })[key], 'single', `${key} stays scalar`)
+    t.same(i.decode(input)[key], 'third', `${key} follows default last-value behavior`)
+  }
+  t.end()
+})
